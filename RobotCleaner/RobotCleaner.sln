@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RobotCleaner", "RobotCleane
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RobotCleaner.Tests", "RobotCleaner.Tests\RobotCleaner.Tests.csproj", "{2B169521-6963-467B-A9BC-C10D8B9810AD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Contracts\Contracts.csproj", "{C5253643-2889-456B-8A24-D3D20EF79694}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{AC283A23-EEEC-4C3C-8703-DE7009EEFEBF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{2B169521-6963-467B-A9BC-C10D8B9810AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2B169521-6963-467B-A9BC-C10D8B9810AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2B169521-6963-467B-A9BC-C10D8B9810AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5253643-2889-456B-8A24-D3D20EF79694}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5253643-2889-456B-8A24-D3D20EF79694}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5253643-2889-456B-8A24-D3D20EF79694}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5253643-2889-456B-8A24-D3D20EF79694}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC283A23-EEEC-4C3C-8703-DE7009EEFEBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC283A23-EEEC-4C3C-8703-DE7009EEFEBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC283A23-EEEC-4C3C-8703-DE7009EEFEBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC283A23-EEEC-4C3C-8703-DE7009EEFEBF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
