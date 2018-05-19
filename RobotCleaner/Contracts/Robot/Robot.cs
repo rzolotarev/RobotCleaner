@@ -9,19 +9,18 @@ using System.Threading.Tasks;
 namespace Contracts.Robot
 {
     public class Robot : IMachineCleaner
-    {        
-        private PositionState currentPositionState;
+    {                
         private readonly IWalkingStrategie _walkingStrategie;
-
-        public Robot(PositionState positionState, IWalkingStrategie walkingStrategie)
-        {            
-            currentPositionState = positionState;
+        
+        public Robot(IWalkingStrategie walkingStrategie)
+        {                        
             _walkingStrategie = walkingStrategie;
         }
 
         public CleaningResult StartClean()
         {
             //TODO - что посетил, что помыл
+            //TODO - может сделать так, что из робота передавать следующую команду
             _walkingStrategie.TryRunCommand();
             return _walkingStrategie.GetResult();
         }

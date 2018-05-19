@@ -33,7 +33,7 @@ namespace Services.WalkingStrategies
 
         public CleaningResult GetResult()
         {
-            return new CleaningResult() { batteryUnit = _worksParameters.PositionState.BatteryUnit };
+            return new CleaningResult() {  final = _worksParameters.PositionState };
         }
 
         public bool TryRunCommand()

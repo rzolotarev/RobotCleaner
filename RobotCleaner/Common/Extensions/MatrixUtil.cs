@@ -4,13 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Contracts.Map
+namespace Contracts.Extensions
 {
-    public enum PlaceStatus
+    public static class MatrixUtil
     {
-        NotDefined = 0,
-        S,
-        C,
-        Null
+        public static PlaceStatus
     }
 }

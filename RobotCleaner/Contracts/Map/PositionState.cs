@@ -8,20 +8,20 @@ namespace Contracts.Map
 {
     public class PositionState
     {
-        private int x;
-        private int y;
-        private Facing facing;
-        private int batteryUnit;
+        private Coordinate coordinate { get; set; }
+        private Facing facing { get; set; }
+        private int batteryUnit { get; set; }
 
         public PositionState(int x, int y, Facing facing, int batteryUnit)
         {
-            this.x = x;
-            this.y = y;
+            coordinate = new Coordinate(x, y);            
             this.facing = facing;
             this.batteryUnit = batteryUnit;
         }
 
         public int BatteryUnit => batteryUnit;
+        public Facing Facing => facing;
+        public Coordinate Coordinate => new Coordinate(coordinate.X, coordinate.Y);
 
         public void TurnRight()
         {
@@ -36,25 +36,25 @@ namespace Contracts.Map
         public void Go(int stepCount = 1)
         {
             if(facing == Facing.N)
-                y -= stepCount;
+                coordinate.Y -= stepCount;
             if (facing == Facing.E)
-                x += stepCount;
+                coordinate.X += stepCount;
             if (facing == Facing.S)
-                y += stepCount;
+                coordinate.Y += stepCount;
             if (facing == Facing.W)
-                x -= stepCount;
+                coordinate.X -= stepCount;
         }
 
         public void GoBack(int stepCount = 1)
         {
             if (facing == Facing.N)
-                y += stepCount;
+                coordinate.Y += stepCount;
             if (facing == Facing.E)
-                x -= stepCount;
+                coordinate.X -= stepCount;
             if (facing == Facing.S)
-                y -= stepCount;
+                coordinate.Y -= stepCount;
             if (facing == Facing.W)
-                x += stepCount;
+                coordinate.X += stepCount;
         }
 
         public void ConsumeBattery(int units = 1)
