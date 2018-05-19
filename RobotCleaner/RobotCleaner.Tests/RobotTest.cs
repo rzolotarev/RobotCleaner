@@ -1,6 +1,8 @@
 ﻿using Contracts.Extensions;
 using Contracts.Map;
 using Contracts.Robot;
+using Contracts.WalkingStrategies;
+using Moq;
 using NUnit.Framework;
 using Services.WalkingStrategies;
 using System;
@@ -14,7 +16,6 @@ namespace RobotCleaner.Tests
     [TestFixture]
     public class RobotTest
     {        
-
         [Test]
         public void TestWithoutEmptySpace()
         {            
@@ -29,7 +30,9 @@ namespace RobotCleaner.Tests
             commands.AddLast(Contracts.Commands.Instructions.TL);
             worksParameters.Commands = commands;
 
-            var walkingStrategie = new WalkingStrategie(worksParameters);
+            var moqBackOffStrategies = new Mock<IBackOffStrategies>();
+            var walkingStrategie = new WalkingStrategie(worksParameters, moqBackOffStrategies.Object);
+
             var robot = new Robot(walkingStrategie);
             var result = robot.StartClean();
             Assert.AreEqual(87, result.final.BatteryUnit);
@@ -37,7 +40,6 @@ namespace RobotCleaner.Tests
             Assert.AreEqual(2, result.final.Coordinate.Y);
             Assert.AreEqual(Facing.W, result.final.Facing);
         }
-
 
         [Test]
         public void TestWithEmptySpace()
@@ -56,14 +58,16 @@ namespace RobotCleaner.Tests
             commands.AddLast(Contracts.Commands.Instructions.TR);
             commands.AddLast(Contracts.Commands.Instructions.A);
             commands.AddLast(Contracts.Commands.Instructions.C);
-            worksParameters.Commands = commands;            
-            var walkingStrategie = new WalkingStrategie(worksParameters);
+            worksParameters.Commands = commands;
+            var moqBackOffStrategies = new Mock<IBackOffStrategies>();
+            var walkingStrategie = new WalkingStrategie(worksParameters, moqBackOffStrategies.Object);
+
             var robot = new Robot(walkingStrategie);
             var result = robot.StartClean();
             Assert.AreEqual(54, result.final.BatteryUnit);
             Assert.AreEqual(2, result.final.Coordinate.X);
             Assert.AreEqual(0, result.final.Coordinate.Y);
             Assert.AreEqual(Facing.E, result.final.Facing);
-        }
+        }        
     }
 }

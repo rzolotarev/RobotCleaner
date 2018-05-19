@@ -54,6 +54,7 @@
     <Compile Include="Robot\CleaningResult.cs" />
     <Compile Include="Robot\IMachineCleaner.cs" />
     <Compile Include="Robot\Robot.cs" />
+    <Compile Include="WalkingStrategies\IBackOffStrategies.cs" />
     <Compile Include="WalkingStrategies\IWalkingStrategie.cs" />
   </ItemGroup>
   <ItemGroup />

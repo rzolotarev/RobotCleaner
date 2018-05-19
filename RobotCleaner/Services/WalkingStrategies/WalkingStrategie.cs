@@ -11,24 +11,15 @@ using System.Threading.Tasks;
 
 namespace Services.WalkingStrategies
 {
-    public class WalkingStrategie : IWalkingStrategie
+    public class WalkingStrategie : BaseStrategies, IWalkingStrategie
     {        
         private readonly WorksParameters _worksParameters;
-        private readonly BackOffStrategies _backOffStrategies;
+        private readonly IBackOffStrategies _backOffStrategies;        
 
-        private Dictionary<Instructions, ICommand> commandMapping = new Dictionary<Instructions, ICommand>()
-        {
-            { Instructions.A, new Advance() },
-            { Instructions.B, new Back() },
-            { Instructions.C, new Clean() },
-            { Instructions.TL, new TurnLeft() },
-            { Instructions.TR, new TurnRight() },
-        };
-
-        public WalkingStrategie(WorksParameters workParameters)
+        public WalkingStrategie(WorksParameters workParameters, IBackOffStrategies backoffStrategies)
         {
             _worksParameters = workParameters;
-            _backOffStrategies = new BackOffStrategies(workParameters.PositionState);
+            _backOffStrategies = backoffStrategies;
         }
 
         public CleaningResult GetResult()
@@ -41,7 +32,7 @@ namespace Services.WalkingStrategies
             var currentCommand = _worksParameters.Commands.First;
             while (currentCommand != null)
             {
-                var command = commandMapping[currentCommand.Value];
+                var command = CommandMapping[currentCommand.Value];
                 if (!command.ExecuteCommand(_worksParameters.PositionState))
                 {
                     if (!_backOffStrategies.ExecuteCommand())
