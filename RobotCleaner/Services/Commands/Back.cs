@@ -13,9 +13,10 @@ namespace Services.Commands
         public bool ExecuteCommand(PositionState positionState)
         {
             //TODO: вынести в конфиг и доставать оттуда
-            positionState.GoBack();
-            positionState.ConsumeBattery(3);
-            return true;
+            if (positionState.GoBack())
+                return positionState.ConsumeBattery(3);
+            
+            return false;
         }
     }
 }

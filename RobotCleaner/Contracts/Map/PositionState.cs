@@ -8,34 +8,73 @@ namespace Contracts.Map
 {
     public class PositionState
     {
+        private int _colCount1;
+
         private Coordinate coordinate { get; set; }
         private Facing facing { get; set; }
         private int batteryUnit { get; set; }
+        private readonly PlaceStatus[,] _map;
+        private readonly int _rowCount;
+        private readonly int _colCount;
 
-        public PositionState(int x, int y, Facing facing, int batteryUnit)
+        public PositionState(int x, int y, Facing facing, int batteryUnit, PlaceStatus[,] map)
         {
-            coordinate = new Coordinate(x, y);            
+            coordinate = new Coordinate(x, y);
             this.facing = facing;
             this.batteryUnit = batteryUnit;
+            _map = map;
+            _rowCount = _map.GetLength(0);
+            _colCount = _map.GetLength(1);
         }
 
         public int BatteryUnit => batteryUnit;
         public Facing Facing => facing;
         public Coordinate Coordinate => new Coordinate(coordinate.X, coordinate.Y);
 
-        public void TurnRight()
+        public bool TurnRight()
         {
-            facing = (Facing)((int)(++facing) % (Enum.GetValues(typeof(Facing)).Length));            
+            if (ConsumeBattery())
+            {
+                facing = (Facing)((int)(++facing) % (Enum.GetValues(typeof(Facing)).Length));
+                return true;
+            }
+
+            return false;
         }
 
-        public void TurnLeft()
+        public bool TurnLeft()
         {
-            facing = --facing < 0 ? (Facing)Enum.GetValues(typeof(Facing)).Length - 1 : facing;            
+            if (ConsumeBattery())
+            {
+                facing = --facing < 0 ? (Facing)Enum.GetValues(typeof(Facing)).Length - 1 : facing;
+                return true;
+            }
+
+            return false;
         }
 
-        public void Go(int stepCount = 1)
+        private bool XCoordinateInBorder()
         {
-            if(facing == Facing.N)
+            return coordinate.X > 0 && coordinate.X < _rowCount;
+        }
+
+        private bool YCoordinateInBorder()
+        {
+            return coordinate.Y > 0 && coordinate.Y < _colCount;
+        }
+
+        private bool PlaceIsAvailable()
+        {
+            return _map[coordinate.X, coordinate.Y] == PlaceStatus.S;
+        }
+
+        //TODO: Go and Back - отрефакторить
+        public bool Go(int stepCount = 1)
+        {
+            var previousCoordinateX = coordinate.X;
+            var previousCoordinateY = coordinate.Y;
+
+            if (facing == Facing.N)
                 coordinate.Y -= stepCount;
             if (facing == Facing.E)
                 coordinate.X += stepCount;
@@ -43,10 +82,20 @@ namespace Contracts.Map
                 coordinate.Y += stepCount;
             if (facing == Facing.W)
                 coordinate.X -= stepCount;
+
+            if (XCoordinateInBorder() && YCoordinateInBorder())
+                if (PlaceIsAvailable())
+                    return true;
+            coordinate.X = previousCoordinateX;
+            coordinate.Y = previousCoordinateY;
+            return false;
         }
 
-        public void GoBack(int stepCount = 1)
+        public bool GoBack(int stepCount = 1)
         {
+            var previousCoordinateX = coordinate.X;
+            var previousCoordinateY = coordinate.Y;
+
             if (facing == Facing.N)
                 coordinate.Y += stepCount;
             if (facing == Facing.E)
@@ -55,11 +104,22 @@ namespace Contracts.Map
                 coordinate.Y -= stepCount;
             if (facing == Facing.W)
                 coordinate.X += stepCount;
+
+            if (XCoordinateInBorder() && YCoordinateInBorder())
+                if (PlaceIsAvailable())
+                    return true;
+            coordinate.X = previousCoordinateX;
+            coordinate.Y = previousCoordinateY;
+            return false;
         }
 
-        public void ConsumeBattery(int units = 1)
+        public bool ConsumeBattery(int units = 1)
         {
-            this.batteryUnit -= units;
+            if (batteryUnit - units < 0)
+                return false;
+
+            batteryUnit -= units;
+            return true;
         }
     }
 }

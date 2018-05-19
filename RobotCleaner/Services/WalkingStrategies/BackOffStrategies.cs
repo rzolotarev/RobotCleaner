@@ -20,7 +20,7 @@ namespace Services.WalkingStrategies
             InitializeStrategies();                                    
         }
 
-        //TODO - вынести, чтобы можно было проще переопределить
+        //TODO - вынести, чтобы можно было проще переопределить. Создать инициализатор
         public void InitializeStrategies()
         {
             var firstBackOff = new LinkedList<Instructions>();
@@ -54,7 +54,7 @@ namespace Services.WalkingStrategies
             instructions.AddLast(fifthBackOff);            
         }
 
-        public bool ExecuteCommand()
+        public bool RunCommands()
         {
             var hitOnObstacle = false;
             var currentBackStageStrategie = instructions.First;

@@ -1,4 +1,5 @@
-﻿using Contracts.Robot;
+﻿using Contracts.Commands;
+using Contracts.Robot;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace Contracts.WalkingStrategies
 {
     public interface IWalkingStrategie
     {
-        bool TryRunCommand();
+        bool RunCommand(Instructions instruction);
         CleaningResult GetResult();
     }
 }

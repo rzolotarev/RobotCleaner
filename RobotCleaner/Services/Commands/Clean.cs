@@ -12,8 +12,7 @@ namespace Services.Commands
     {
         public bool ExecuteCommand(PositionState positionState)
         {
-            positionState.ConsumeBattery(5);
-            return true;
+            return positionState.ConsumeBattery(5);                
         }
     }
 }

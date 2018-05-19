@@ -13,36 +13,24 @@ namespace Services.WalkingStrategies
 {
     public class WalkingStrategie : BaseStrategies, IWalkingStrategie
     {        
-        private readonly WorksParameters _worksParameters;
-        private readonly IBackOffStrategies _backOffStrategies;        
+        private readonly PositionState _positionState;        
 
-        public WalkingStrategie(WorksParameters workParameters, IBackOffStrategies backoffStrategies)
+        public WalkingStrategie(PositionState positionState)
         {
-            _worksParameters = workParameters;
-            _backOffStrategies = backoffStrategies;
+            _positionState = positionState;            
         }
 
         public CleaningResult GetResult()
         {
-            return new CleaningResult() {  final = _worksParameters.PositionState };
+            //TODO: для final создать отдельную вьюшку
+            return new CleaningResult() {  final = new PositionState(_positionState.Coordinate.X, 
+                _positionState.Coordinate.Y, _positionState.Facing, _positionState.BatteryUnit, null) };
         }
 
-        public bool TryRunCommand()
+        public bool RunCommand(Instructions currentInstruction)
         {
-            var currentCommand = _worksParameters.Commands.First;
-            while (currentCommand != null)
-            {
-                var command = CommandMapping[currentCommand.Value];
-                if (!command.ExecuteCommand(_worksParameters.PositionState))
-                {
-                    if (!_backOffStrategies.ExecuteCommand())
-                        return false;
-                }
-
-                currentCommand = currentCommand.Next;
-            }
-
-            return true;
+            var command = CommandMapping[currentInstruction];
+            return command.ExecuteCommand(_positionState);                                         
         }
     }
 }

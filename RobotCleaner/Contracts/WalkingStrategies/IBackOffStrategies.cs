@@ -8,6 +8,6 @@ namespace Contracts.WalkingStrategies
 {
     public interface IBackOffStrategies
     {
-        bool ExecuteCommand();
+        bool RunCommands();
     }
 }
