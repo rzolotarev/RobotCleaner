@@ -9,7 +9,7 @@ namespace Contracts.Robot
 {
     public class CleaningResult
     {
-        public PositionState final { get; set; }
+        public FinalStateView Final { get; set; }
         public List<Coordinate> Visited { get; set; }
         public List<Coordinate> Cleaned { get; set; }
     }

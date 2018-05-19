@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace RobotCleaner.Tests
 {
+    [TestFixture]
     public class MatrixConvertionTest
     {
 

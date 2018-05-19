@@ -21,10 +21,9 @@ namespace Services.WalkingStrategies
         }
 
         public CleaningResult GetResult()
-        {
-            //TODO: для final создать отдельную вьюшку
-            return new CleaningResult() {  final = new PositionState(_positionState.Coordinate.X, 
-                _positionState.Coordinate.Y, _positionState.Facing, _positionState.BatteryUnit, null) };
+        {            
+            return new CleaningResult() {  Final = new FinalStateView(_positionState.Coordinate.X, 
+                _positionState.Coordinate.Y, _positionState.Facing.ToString(), _positionState.BatteryUnit) };
         }
 
         public bool RunCommand(Instructions currentInstruction)

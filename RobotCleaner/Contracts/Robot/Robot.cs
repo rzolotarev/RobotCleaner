@@ -23,9 +23,7 @@ namespace Contracts.Robot
         }
 
         public CleaningResult StartClean()
-        {
-            //TODO - что посетил, что помыл
-            //TODO - может сделать так, что из робота передавать следующую команду
+        {                        
             var currentInstruction = _instructions.First;
             while (currentInstruction != null)
             {
@@ -33,10 +31,12 @@ namespace Contracts.Robot
                 if (!isSuccessful)
                 {
                     var backOffSuccessful = _backOffStrategies.RunCommands();
+                    if (!backOffSuccessful)
+                        return _walkingStrategie.GetResult();
                 }
-                else
-                    currentInstruction = currentInstruction.Next;
-            }       
+
+                currentInstruction = currentInstruction.Next;
+            }  
             return _walkingStrategie.GetResult();
         }
     }

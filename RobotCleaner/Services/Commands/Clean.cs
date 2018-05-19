@@ -12,7 +12,13 @@ namespace Services.Commands
     {
         public bool ExecuteCommand(PositionState positionState)
         {
-            return positionState.ConsumeBattery(5);                
+            if (positionState.ConsumeBattery(5))
+            {
+                positionState.AddCleaned();
+                return true;
+            }
+
+            return false;
         }
     }
 }

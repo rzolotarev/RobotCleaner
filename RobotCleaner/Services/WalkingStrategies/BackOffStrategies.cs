@@ -58,17 +58,22 @@ namespace Services.WalkingStrategies
         {
             var hitOnObstacle = false;
             var currentBackStageStrategie = instructions.First;
+            var sourcePosisionX = _positionState.Coordinate.X;
+            var sourcePosisionY = _positionState.Coordinate.Y;
 
-            while(currentBackStageStrategie != null)
+            while (currentBackStageStrategie != null)
             {
                 var currentCommand = currentBackStageStrategie.Value.First;
                 while(currentCommand != null && !hitOnObstacle)
                 {
                     var command = CommandMapping[currentCommand.Value];
                     var isSucceed = command.ExecuteCommand(_positionState);
-                    if (!isSucceed)                    
-                        hitOnObstacle = true;                                            
-                    else                    
+                    if (!isSucceed)
+                    {
+                        hitOnObstacle = true;
+                        
+                    }
+                    else
                         currentCommand = currentCommand.Next;                    
                 }
 
@@ -76,6 +81,7 @@ namespace Services.WalkingStrategies
                     return true;
 
                 currentBackStageStrategie = currentBackStageStrategie.Next;
+                hitOnObstacle = false;
             }
 
             return false;

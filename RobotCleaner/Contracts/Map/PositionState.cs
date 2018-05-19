@@ -7,18 +7,21 @@ using System.Threading.Tasks;
 namespace Contracts.Map
 {
     public class PositionState
-    {
-        private int _colCount1;
-
+    {    
         private Coordinate coordinate { get; set; }
         private Facing facing { get; set; }
         private int batteryUnit { get; set; }
+        private List<Coordinate> visited { get; set; }
+        private List<Coordinate> cleaned { get; set; }
         private readonly PlaceStatus[,] _map;
         private readonly int _rowCount;
         private readonly int _colCount;
 
         public PositionState(int x, int y, Facing facing, int batteryUnit, PlaceStatus[,] map)
         {
+            visited = new List<Coordinate>() { new Coordinate(x, y) };
+            cleaned = new List<Coordinate>();
+
             coordinate = new Coordinate(x, y);
             this.facing = facing;
             this.batteryUnit = batteryUnit;
@@ -30,6 +33,15 @@ namespace Contracts.Map
         public int BatteryUnit => batteryUnit;
         public Facing Facing => facing;
         public Coordinate Coordinate => new Coordinate(coordinate.X, coordinate.Y);
+
+        //TODO - лучше сделать через Dictionary
+        public List<Coordinate> Visited => visited.ToList();
+        public List<Coordinate> Cleaned => cleaned.ToList();
+
+        public void AddCleaned()
+        {
+            cleaned.Add(new Coordinate(coordinate.X, coordinate.Y));
+        }
 
         public bool TurnRight()
         {
@@ -55,17 +67,17 @@ namespace Contracts.Map
 
         private bool XCoordinateInBorder()
         {
-            return coordinate.X > 0 && coordinate.X < _rowCount;
+            return coordinate.X >= 0 && coordinate.X < _colCount;
         }
 
         private bool YCoordinateInBorder()
         {
-            return coordinate.Y > 0 && coordinate.Y < _colCount;
+            return coordinate.Y >= 0 && coordinate.Y < _rowCount;
         }
 
         private bool PlaceIsAvailable()
         {
-            return _map[coordinate.X, coordinate.Y] == PlaceStatus.S;
+            return _map[coordinate.Y, coordinate.X] == PlaceStatus.S;
         }
 
         //TODO: Go and Back - отрефакторить
@@ -73,6 +85,9 @@ namespace Contracts.Map
         {
             var previousCoordinateX = coordinate.X;
             var previousCoordinateY = coordinate.Y;
+
+            if (!ConsumeBattery(2))
+                return false;
 
             if (facing == Facing.N)
                 coordinate.Y -= stepCount;
@@ -83,9 +98,14 @@ namespace Contracts.Map
             if (facing == Facing.W)
                 coordinate.X -= stepCount;
 
+            //TODO-отрефакторить
             if (XCoordinateInBorder() && YCoordinateInBorder())
                 if (PlaceIsAvailable())
+                {
+                    visited.Add(new Coordinate(coordinate.X, coordinate.Y));
                     return true;
+                }
+
             coordinate.X = previousCoordinateX;
             coordinate.Y = previousCoordinateY;
             return false;
@@ -96,6 +116,9 @@ namespace Contracts.Map
             var previousCoordinateX = coordinate.X;
             var previousCoordinateY = coordinate.Y;
 
+            if (!ConsumeBattery(3))
+                return false;
+
             if (facing == Facing.N)
                 coordinate.Y += stepCount;
             if (facing == Facing.E)
@@ -107,7 +130,10 @@ namespace Contracts.Map
 
             if (XCoordinateInBorder() && YCoordinateInBorder())
                 if (PlaceIsAvailable())
+                {
+                    visited.Add(new Coordinate(coordinate.X, coordinate.Y));
                     return true;
+                }
             coordinate.X = previousCoordinateX;
             coordinate.Y = previousCoordinateY;
             return false;
