@@ -10,11 +10,9 @@ namespace Services.Commands
 {
     public class TurnRight : ICommand
     {
-   
-        public bool ExecuteCommand(PositionState positionState)
+        public bool ExecuteCommand(PositionStateManager positionState)
         {
-            //TODO: вынести в конфиг и доставать оттуда
-            return positionState.TryToTurnRight();            
+            return positionState.TryToTurnRight();
         }
     }
 }

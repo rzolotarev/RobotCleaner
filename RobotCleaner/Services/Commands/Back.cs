@@ -10,9 +10,8 @@ namespace Services.Commands
 {
     public class Back : ICommand
     {                 
-        public bool ExecuteCommand(PositionState positionState)
-        {
-            //TODO: вынести в конфиг и доставать оттуда
+        public bool ExecuteCommand(PositionStateManager positionState)
+        {            
             return positionState.TryToGoBack();                                        
         }
     }

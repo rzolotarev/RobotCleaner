@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Contracts.Map
 {
-    public class PositionState
+    public class PositionStateManager
     {    
         private Coordinate coordinate { get; set; }
         private Facing facing { get; set; }
@@ -17,17 +17,17 @@ namespace Contracts.Map
         private readonly int _rowCount;
         private readonly int _colCount;
 
-        public PositionState(int x, int y, Facing facing, int batteryUnit, PlaceStatus[,] map)
-        {
-            visited = new Dictionary<Coordinate, int>(new CoordinateComparer()){ { new Coordinate(x, y), 0 } };
-            cleaned = new Dictionary<Coordinate, int>(new CoordinateComparer());
-
-            coordinate = new Coordinate(x, y);
+        public PositionStateManager(int x, int y, Facing facing, int batteryUnit, PlaceStatus[,] map)
+        {            
             this.facing = facing;
             this.batteryUnit = batteryUnit;
             _map = map;
             _rowCount = _map.GetLength(0);
             _colCount = _map.GetLength(1);
+
+            visited = new Dictionary<Coordinate, int>(new CoordinateComparer()) { { new Coordinate(x, y), 0 } };
+            cleaned = new Dictionary<Coordinate, int>(new CoordinateComparer());
+            coordinate = new Coordinate(x, y);
         }
 
         public int BatteryUnit => batteryUnit;

@@ -10,7 +10,7 @@ namespace Services.Commands
 {
     public class Clean : ICommand
     {
-        public bool ExecuteCommand(PositionState positionState)
+        public bool ExecuteCommand(PositionStateManager positionState)
         {
             return positionState.TryToClean();            
         }

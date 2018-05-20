@@ -11,14 +11,14 @@ using System.Threading.Tasks;
 
 namespace Services.WalkingStrategies
 {
-    public class WalkingStrategie : BaseStrategies, IWalkingStrategie
+    public class InstructionExecutor : BaseInstructionExecutor, IInstructionExecutor
     {        
-        private readonly PositionState _positionState;        
+        private readonly PositionStateManager _positionState;        
 
-        public WalkingStrategie(PositionState positionState)
+        public InstructionExecutor(PositionStateManager positionState)
         {
             _positionState = positionState;            
-        }
+        }        
 
         public CleaningResult GetResult()
         {            
@@ -26,10 +26,13 @@ namespace Services.WalkingStrategies
                 _positionState.Coordinate.Y, _positionState.Facing.ToString(), _positionState.BatteryUnit) };
         }
 
-        public bool RunCommand(Instructions currentInstruction)
+        public bool TryToExecuteInstruction(Instructions currentInstruction)
         {
-            var command = CommandMapping[currentInstruction];
-            return command.ExecuteCommand(_positionState);                                         
+            ICommand command = null;
+            if(CommandMapping.TryGetValue(currentInstruction, out command))
+                return command.ExecuteCommand(_positionState);
+            //TODO-logging
+            return false;
         }
     }
 }

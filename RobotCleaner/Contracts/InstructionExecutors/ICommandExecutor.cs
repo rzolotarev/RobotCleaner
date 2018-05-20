@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Contracts.WalkingStrategies
 {
-    public interface IWalkingStrategie
+    public interface IInstructionExecutor
     {
-        bool RunCommand(Instructions instruction);
+        bool TryToExecuteInstruction(Instructions instruction);                     
         CleaningResult GetResult();
     }
 }

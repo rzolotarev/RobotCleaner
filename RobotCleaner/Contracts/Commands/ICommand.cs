@@ -9,6 +9,6 @@ namespace Contracts.Commands
 {
     public interface ICommand
     {
-        bool ExecuteCommand(PositionState positionState);        
+        bool ExecuteCommand(PositionStateManager positionState);        
     }
 }

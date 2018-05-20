@@ -10,7 +10,7 @@ namespace Contracts.Map
     public class WorksParameters
     {
         public PlaceStatus[,] map;
-        public PositionState PositionState;
+        public PositionStateManager PositionState;
         public LinkedList<Instructions> Commands;        
     }
 }

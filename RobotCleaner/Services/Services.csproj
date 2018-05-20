@@ -45,10 +45,11 @@
     <Compile Include="Commands\Clean.cs" />
     <Compile Include="Commands\TurnLeft.cs" />
     <Compile Include="Commands\TurnRight.cs" />
+    <Compile Include="InstructionExecutors\StandardBackOffInstructionsInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WalkingStrategies\BackOffStrategies.cs" />
-    <Compile Include="WalkingStrategies\BaseStrategies.cs" />
-    <Compile Include="WalkingStrategies\WalkingStrategie.cs" />
+    <Compile Include="InstructionExecutors\BackOffStrategiesExecutor.cs" />
+    <Compile Include="InstructionExecutors\BaseInstrcutionExecutor.cs" />
+    <Compile Include="InstructionExecutors\InstructionExecutor.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Contracts\Contracts.csproj">

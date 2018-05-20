@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Services.WalkingStrategies
 {
-    public class BaseStrategies
+    public class BaseInstructionExecutor
     {
         protected Dictionary<Instructions, ICommand> CommandMapping = new Dictionary<Instructions, ICommand>()
         {

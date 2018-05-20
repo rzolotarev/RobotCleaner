@@ -44,20 +44,21 @@
     <Compile Include="Commands\Instructions.cs" />
     <Compile Include="Extensions\MatrixConvertionResult.cs" />
     <Compile Include="Extensions\MatrixUtil.cs" />
+    <Compile Include="InstructionExecutors\IBackOffInstructionsInitializer.cs" />
     <Compile Include="Map\Coordinate.cs" />
     <Compile Include="Map\CoordinateComparer.cs" />
     <Compile Include="Map\Facing.cs" />
     <Compile Include="Map\IMapProvider.cs" />
     <Compile Include="Map\PlaceStatus.cs" />
-    <Compile Include="Map\PositionState.cs" />
+    <Compile Include="Map\PositionStateManager.cs" />
     <Compile Include="Map\WorksParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Robot\CleaningResult.cs" />
     <Compile Include="Robot\FinalStateView.cs" />
     <Compile Include="Robot\IMachineCleaner.cs" />
     <Compile Include="Robot\Robot.cs" />
-    <Compile Include="WalkingStrategies\IBackOffStrategies.cs" />
-    <Compile Include="WalkingStrategies\IWalkingStrategie.cs" />
+    <Compile Include="InstructionExecutors\IBackOffStrategiesExecutor.cs" />
+    <Compile Include="InstructionExecutors\ICommandExecutor.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

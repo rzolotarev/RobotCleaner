@@ -4,6 +4,7 @@ using Contracts.Robot;
 using Contracts.WalkingStrategies;
 using Moq;
 using NUnit.Framework;
+using Services.InstructionExecutors;
 using Services.WalkingStrategies;
 using System;
 using System.Collections.Generic;
@@ -17,12 +18,12 @@ namespace RobotCleaner.Tests
     public class RobotTest
     {        
         [Test]
-        public void TestWithoutEmptySpace()
+        public void CleaningWithoutEmptySpace()
         {
             var map = new string[4, 4] { { "S", "S", "S", "S" },{ "S", "S", "S", "S" },
                                          { "S", "S", "S", "S" }, {"S", "S", "S", "S"} };
             var newMap = map.ToPlaceStatuses().Matrix;
-            var positionState = new PositionState(1, 1, Facing.N, 100, newMap);            
+            var positionState = new PositionStateManager(1, 1, Facing.N, 100, newMap);            
 
             var commands = new LinkedList<Contracts.Commands.Instructions>();
             commands.AddLast(Contracts.Commands.Instructions.B);
@@ -32,8 +33,8 @@ namespace RobotCleaner.Tests
             commands.AddLast(Contracts.Commands.Instructions.TL);
             commands.AddLast(Contracts.Commands.Instructions.TL);            
             
-            var walkingStrategie = new WalkingStrategie(positionState);
-            var moq = new Mock<IBackOffStrategies>();
+            var walkingStrategie = new InstructionExecutor(positionState);
+            var moq = new Mock<IBackOffStrategiesExecutor>();
             var robot = new Robot(walkingStrategie, commands, moq.Object);
             var result = robot.StartClean();
             Assert.AreEqual(87, result.Final.Battery);
@@ -48,7 +49,7 @@ namespace RobotCleaner.Tests
             var map = new string[4, 4] { { "S", "S", "S", "S" },{ "S", "S", "C", "S" },
                                          { "S", "S", "S", "S" }, {"S", "Null", "S", "S"} };
             var newMap = map.ToPlaceStatuses().Matrix;
-            var positionState = new PositionState(3, 0, Facing.N, 80, newMap);
+            var positionState = new PositionStateManager(3, 0, Facing.N, 80, newMap);
 
             var commands = new LinkedList<Contracts.Commands.Instructions>();
             commands.AddLast(Contracts.Commands.Instructions.TL);
@@ -59,8 +60,10 @@ namespace RobotCleaner.Tests
             commands.AddLast(Contracts.Commands.Instructions.TR);
             commands.AddLast(Contracts.Commands.Instructions.A);
             commands.AddLast(Contracts.Commands.Instructions.C);            
-            var walkingStrategie = new WalkingStrategie(positionState);
-            var backOffStrategies = new BackOffStrategies(positionState);
+            var walkingStrategie = new InstructionExecutor(positionState);
+
+            var backOffInitializer = new StandardBackOffInstructionsInitializer();
+            var backOffStrategies = new BackOffStrategiesExecutor(positionState, backOffInitializer);
             var robot = new Robot(walkingStrategie,commands, backOffStrategies);
             var result = robot.StartClean();
             Assert.AreEqual(54, result.Final.Battery);
@@ -76,7 +79,7 @@ namespace RobotCleaner.Tests
             var map = new string[4, 4] { { "S", "S", "S", "S" },{ "S", "S", "C", "S" },
                                          { "S", "S", "S", "S" }, {"S", "Null", "S", "S"} };
             var newMap = map.ToPlaceStatuses().Matrix;
-            var positionState = new PositionState(3, 1, Facing.S, 1094, newMap);
+            var positionState = new PositionStateManager(3, 1, Facing.S, 1094, newMap);
 
             var commands = new LinkedList<Contracts.Commands.Instructions>();
             commands.AddLast(Contracts.Commands.Instructions.TR);
@@ -87,8 +90,9 @@ namespace RobotCleaner.Tests
             commands.AddLast(Contracts.Commands.Instructions.TR);
             commands.AddLast(Contracts.Commands.Instructions.A);
             commands.AddLast(Contracts.Commands.Instructions.C);
-            var walkingStrategie = new WalkingStrategie(positionState);
-            var backOffStrategies = new BackOffStrategies(positionState);
+            var walkingStrategie = new InstructionExecutor(positionState);
+            var backOffInitializer = new StandardBackOffInstructionsInitializer();
+            var backOffStrategies = new BackOffStrategiesExecutor(positionState, backOffInitializer);
             var robot = new Robot(walkingStrategie, commands, backOffStrategies);
             var result = robot.StartClean();
             Assert.AreEqual(1040, result.Final.Battery);
@@ -103,7 +107,7 @@ namespace RobotCleaner.Tests
             var map = new string[4, 4] { { "S", "S", "S", "S" },{ "S", "S", "S", "S" },
                                          { "S", "S", "S", "S" }, {"S", "S", "S", "S"} };
             var newMap = map.ToPlaceStatuses().Matrix;
-            var positionState = new PositionState(1, 1, Facing.N, 10, newMap);
+            var positionState = new PositionStateManager(1, 1, Facing.N, 10, newMap);
 
             var commands = new LinkedList<Contracts.Commands.Instructions>();
             commands.AddLast(Contracts.Commands.Instructions.B);
@@ -113,8 +117,8 @@ namespace RobotCleaner.Tests
             commands.AddLast(Contracts.Commands.Instructions.TL);
             commands.AddLast(Contracts.Commands.Instructions.TL);
 
-            var walkingStrategie = new WalkingStrategie(positionState);
-            var moq = new Mock<IBackOffStrategies>();
+            var walkingStrategie = new InstructionExecutor(positionState);
+            var moq = new Mock<IBackOffStrategiesExecutor>();
             var robot = new Robot(walkingStrategie, commands, moq.Object);
             var result = robot.StartClean();
             Assert.AreEqual(4, result.Final.Battery);
@@ -129,7 +133,7 @@ namespace RobotCleaner.Tests
             var map = new string[4, 4] { { "S", "S", "S", "S" },{ "S", "S", "S", "S" },
                                          { "S", "S", "S", "S" }, {"S", "S", "S", "S"} };
             var newMap = map.ToPlaceStatuses().Matrix;
-            var positionState = new PositionState(1, 1, Facing.N, 12, newMap);
+            var positionState = new PositionStateManager(1, 1, Facing.N, 12, newMap);
 
             var commands = new LinkedList<Contracts.Commands.Instructions>();
             commands.AddLast(Contracts.Commands.Instructions.B);
@@ -139,8 +143,8 @@ namespace RobotCleaner.Tests
             commands.AddLast(Contracts.Commands.Instructions.TL);
             commands.AddLast(Contracts.Commands.Instructions.TL);
 
-            var walkingStrategie = new WalkingStrategie(positionState);
-            var moq = new Mock<IBackOffStrategies>();
+            var walkingStrategie = new InstructionExecutor(positionState);
+            var moq = new Mock<IBackOffStrategiesExecutor>();
             var robot = new Robot(walkingStrategie, commands, moq.Object);
             var result = robot.StartClean();
             Assert.AreEqual(0, result.Final.Battery);

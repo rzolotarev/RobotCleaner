@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace Contracts.WalkingStrategies
 {
-    public interface IBackOffStrategies
+    public interface IBackOffStrategiesExecutor
     {
-        bool RunCommands();
+        bool RunBackOffCommands();
     }
 }

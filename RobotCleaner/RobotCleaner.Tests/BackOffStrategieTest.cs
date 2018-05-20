@@ -1,6 +1,7 @@
 ﻿using Contracts.Extensions;
 using Contracts.Map;
 using NUnit.Framework;
+using Services.InstructionExecutors;
 using Services.WalkingStrategies;
 using System;
 using System.Collections.Generic;
@@ -20,7 +21,7 @@ namespace RobotCleaner.Tests
             var map = new string[4, 4] { { "S", "S", "S", "S" },{ "S", "S", "C", "S" },
                                          { "S", "S", "S", "S" }, {"S", "Null", "S", "S"} };
             var newMap = map.ToPlaceStatuses().Matrix;
-            var positionState = new PositionState(3, 0, Facing.N, 80, newMap);
+            var positionState = new PositionStateManager(3, 0, Facing.N, 80, newMap);
 
             var commands = new LinkedList<Contracts.Commands.Instructions>();
             commands.AddLast(Contracts.Commands.Instructions.TL);
@@ -31,16 +32,18 @@ namespace RobotCleaner.Tests
             commands.AddLast(Contracts.Commands.Instructions.TR);
             commands.AddLast(Contracts.Commands.Instructions.A);
             commands.AddLast(Contracts.Commands.Instructions.C);
+
+            var backOffInitializer = new StandardBackOffInstructionsInitializer();
+            var backOffStrategies = new BackOffStrategiesExecutor(positionState, backOffInitializer);
             
-            var backOffStrategies = new BackOffStrategies(positionState);
-            var walkingStrategie = new WalkingStrategie(positionState);
+            var walkingStrategie = new InstructionExecutor(positionState);
             var currentCommand = commands.First;
             while (currentCommand != null)
             {
-                var isSuccessful = walkingStrategie.RunCommand(currentCommand.Value);
+                var isSuccessful = walkingStrategie.TryToExecuteInstruction(currentCommand.Value);
                 if (!isSuccessful)
                 {
-                    var backOffSuccessful = backOffStrategies.RunCommands();
+                    var backOffSuccessful = backOffStrategies.RunBackOffCommands();
                     if (!backOffSuccessful)
                         break;
                 }
@@ -63,7 +66,7 @@ namespace RobotCleaner.Tests
             var map = new string[4, 4] { { "S", "S", "S", "S" },{ "S", "S", "C", "S" },
                                          { "S", "S", "S", "S" }, {"S", "null", "S", "S"} };
             var newMap = map.ToPlaceStatuses().Matrix;
-            var positionState = new PositionState(3, 1, Facing.S, 1094, newMap);
+            var positionState = new PositionStateManager(3, 1, Facing.S, 1094, newMap);
 
             var commands = new LinkedList<Contracts.Commands.Instructions>();
             commands.AddLast(Contracts.Commands.Instructions.TR);
@@ -75,15 +78,16 @@ namespace RobotCleaner.Tests
             commands.AddLast(Contracts.Commands.Instructions.A);
             commands.AddLast(Contracts.Commands.Instructions.C);
 
-            var backOffStrategies = new BackOffStrategies(positionState);
-            var walkingStrategie = new WalkingStrategie(positionState);
+            var backOffInitializer = new StandardBackOffInstructionsInitializer();
+            var backOffStrategies = new BackOffStrategiesExecutor(positionState, backOffInitializer);
+            var instructionExecutor = new InstructionExecutor(positionState);
             var currentCommand = commands.First;
             while (currentCommand != null)
             {
-                var isSuccessful = walkingStrategie.RunCommand(currentCommand.Value);
+                var isSuccessful = instructionExecutor.TryToExecuteInstruction(currentCommand.Value);
                 if (!isSuccessful)
                 {
-                    var backOffSuccessful = backOffStrategies.RunCommands();
+                    var backOffSuccessful = backOffStrategies.RunBackOffCommands();
                     if (!backOffSuccessful)
                         break;
                 }
