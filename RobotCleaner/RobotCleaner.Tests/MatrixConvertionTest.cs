@@ -17,7 +17,7 @@ namespace RobotCleaner.Tests
         public void MatrixConvertion_ShouldReturnFalse()
         {
             var map = new string[4, 4] { { "S", "S", "S", "S" },{ "S", "S", "C", "S" },
-                                         { "S", "S", "S", "S" }, {"S", "null", "S", "S"} };
+                                         { "S", "S", "S", "S" }, {"S", "Dull", "S", "S"} };
             var result = map.ToPlaceStatuses();
             Assert.AreEqual(false, result.IsSucceed);
         }
@@ -26,7 +26,7 @@ namespace RobotCleaner.Tests
         public void MatrixConvertion_ShouldReturnTrue()
         {
             var map = new string[4, 4] { { "S", "S", "S", "S" },{ "S", "S", "C", "S" },
-                                         { "S", "S", "S", "S" }, {"S", "Null", "S", "S"} };
+                                         { "S", "S", "S", "S" }, {"S", "null", "S", "S"} };
             var result = map.ToPlaceStatuses();
             Assert.AreEqual(true, result.IsSucceed);
         }

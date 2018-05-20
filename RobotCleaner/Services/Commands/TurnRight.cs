@@ -14,7 +14,7 @@ namespace Services.Commands
         public bool ExecuteCommand(PositionState positionState)
         {
             //TODO: вынести в конфиг и доставать оттуда
-            return positionState.TurnRight();            
+            return positionState.TryToTurnRight();            
         }
     }
 }

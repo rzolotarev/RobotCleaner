@@ -59,10 +59,9 @@ namespace RobotCleaner.Tests
         [Test]
         public void Test2BackOffStrategie()
         {
-
-            //TODO: обработать null
+            
             var map = new string[4, 4] { { "S", "S", "S", "S" },{ "S", "S", "C", "S" },
-                                         { "S", "S", "S", "S" }, {"S", "Null", "S", "S"} };
+                                         { "S", "S", "S", "S" }, {"S", "null", "S", "S"} };
             var newMap = map.ToPlaceStatuses().Matrix;
             var positionState = new PositionState(3, 1, Facing.S, 1094, newMap);
 
@@ -92,8 +91,27 @@ namespace RobotCleaner.Tests
                 currentCommand = currentCommand.Next;
             }
 
-            var visited = positionState.Visited;
-            var cleaned = positionState.Cleaned;
+            var actulaVisited = positionState.Visited;
+            var expectedVisited = new List<Coordinate>()
+            {
+                new Coordinate(2,2),
+                new Coordinate(3,0),
+                new Coordinate(3,1),
+                new Coordinate(3,2)
+            };
+            Assert.AreEqual(expectedVisited.Count, actulaVisited.Count);
+            actulaVisited.ForEach(a => Assert.That(expectedVisited.Contains(a)));
+
+            var expectedCleaned = new List<Coordinate>()
+            {
+                new Coordinate(2,2),
+                new Coordinate(3,0),                
+                new Coordinate(3,2)
+            };
+            var actualCleaned = positionState.Cleaned;
+            Assert.AreEqual(expectedCleaned.Count, actualCleaned.Count);
+            actualCleaned.ForEach(a => Assert.That(expectedCleaned.Contains(a)));
+
             Assert.AreEqual(1040, positionState.BatteryUnit);
             Assert.AreEqual(3, positionState.Coordinate.X);
             Assert.AreEqual(2, positionState.Coordinate.Y);

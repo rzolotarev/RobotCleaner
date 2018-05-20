@@ -45,6 +45,7 @@
     <Compile Include="Extensions\MatrixConvertionResult.cs" />
     <Compile Include="Extensions\MatrixUtil.cs" />
     <Compile Include="Map\Coordinate.cs" />
+    <Compile Include="Map\CoordinateComparer.cs" />
     <Compile Include="Map\Facing.cs" />
     <Compile Include="Map\IMapProvider.cs" />
     <Compile Include="Map\PlaceStatus.cs" />

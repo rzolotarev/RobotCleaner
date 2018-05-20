@@ -21,7 +21,13 @@ namespace Contracts.Extensions
                 {
                     var parsingResult = Enum.TryParse(sourceMatrix[i, j], out destMatrix[i, j]);
                     if (!parsingResult)
-                        return new MatrixConvertionResult() { Matrix = destMatrix };
+                    {
+                        if (sourceMatrix[i, j] == "null")
+                            destMatrix[i, j] = PlaceStatus.Null;
+                        else
+                            return new MatrixConvertionResult() { Matrix = destMatrix };
+                    }
+                        
                 }
 
             return new MatrixConvertionResult() { Matrix = destMatrix, IsSucceed = true };

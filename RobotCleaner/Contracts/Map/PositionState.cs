@@ -11,16 +11,16 @@ namespace Contracts.Map
         private Coordinate coordinate { get; set; }
         private Facing facing { get; set; }
         private int batteryUnit { get; set; }
-        private List<Coordinate> visited { get; set; }
-        private List<Coordinate> cleaned { get; set; }
+        private Dictionary<Coordinate, int> visited { get; set; }
+        private Dictionary<Coordinate, int> cleaned { get; set; }
         private readonly PlaceStatus[,] _map;
         private readonly int _rowCount;
         private readonly int _colCount;
 
         public PositionState(int x, int y, Facing facing, int batteryUnit, PlaceStatus[,] map)
         {
-            visited = new List<Coordinate>() { new Coordinate(x, y) };
-            cleaned = new List<Coordinate>();
+            visited = new Dictionary<Coordinate, int>(new CoordinateComparer()){ { new Coordinate(x, y), 0 } };
+            cleaned = new Dictionary<Coordinate, int>(new CoordinateComparer());
 
             coordinate = new Coordinate(x, y);
             this.facing = facing;
@@ -33,19 +33,13 @@ namespace Contracts.Map
         public int BatteryUnit => batteryUnit;
         public Facing Facing => facing;
         public Coordinate Coordinate => new Coordinate(coordinate.X, coordinate.Y);
+        
+        public List<Coordinate> Visited => visited.OrderBy(v => v.Value).Select(v => v.Key).ToList();
+        public List<Coordinate> Cleaned => cleaned.OrderBy(c => c.Value).Select(c => c.Key).ToList();     
 
-        //TODO - лучше сделать через Dictionary
-        public List<Coordinate> Visited => visited.ToList();
-        public List<Coordinate> Cleaned => cleaned.ToList();
-
-        public void AddCleaned()
+        public bool TryToTurnRight()
         {
-            cleaned.Add(new Coordinate(coordinate.X, coordinate.Y));
-        }
-
-        public bool TurnRight()
-        {
-            if (ConsumeBattery())
+            if (TryToConsumeBattery())
             {
                 facing = (Facing)((int)(++facing) % (Enum.GetValues(typeof(Facing)).Length));
                 return true;
@@ -54,9 +48,9 @@ namespace Contracts.Map
             return false;
         }
 
-        public bool TurnLeft()
+        public bool TryToTurnLeft()
         {
-            if (ConsumeBattery())
+            if (TryToConsumeBattery())
             {
                 facing = --facing < 0 ? (Facing)Enum.GetValues(typeof(Facing)).Length - 1 : facing;
                 return true;
@@ -79,15 +73,14 @@ namespace Contracts.Map
         {
             return _map[coordinate.Y, coordinate.X] == PlaceStatus.S;
         }
-
-        //TODO: Go and Back - отрефакторить
-        public bool Go(int stepCount = 1)
+        
+        public bool TryToGo(int stepCount = 1)
         {
-            var previousCoordinateX = coordinate.X;
-            var previousCoordinateY = coordinate.Y;
-
-            if (!ConsumeBattery(2))
+            if (!TryToConsumeBattery(2))
                 return false;
+
+            var previousCoordinateX = coordinate.X;
+            var previousCoordinateY = coordinate.Y;           
 
             if (facing == Facing.N)
                 coordinate.Y -= stepCount;
@@ -97,12 +90,11 @@ namespace Contracts.Map
                 coordinate.Y += stepCount;
             if (facing == Facing.W)
                 coordinate.X -= stepCount;
-
-            //TODO-отрефакторить
+            
             if (XCoordinateInBorder() && YCoordinateInBorder())
                 if (PlaceIsAvailable())
                 {
-                    visited.Add(new Coordinate(coordinate.X, coordinate.Y));
+                    TryAddingToVisited();
                     return true;
                 }
 
@@ -111,13 +103,13 @@ namespace Contracts.Map
             return false;
         }
 
-        public bool GoBack(int stepCount = 1)
+        public bool TryToGoBack(int stepCount = 1)
         {
+            if (!TryToConsumeBattery(3))
+                return false;
+
             var previousCoordinateX = coordinate.X;
             var previousCoordinateY = coordinate.Y;
-
-            if (!ConsumeBattery(3))
-                return false;
 
             if (facing == Facing.N)
                 coordinate.Y += stepCount;
@@ -131,21 +123,54 @@ namespace Contracts.Map
             if (XCoordinateInBorder() && YCoordinateInBorder())
                 if (PlaceIsAvailable())
                 {
-                    visited.Add(new Coordinate(coordinate.X, coordinate.Y));
+                    TryAddingToVisited();
                     return true;
                 }
+
             coordinate.X = previousCoordinateX;
             coordinate.Y = previousCoordinateY;
+
             return false;
         }
 
-        public bool ConsumeBattery(int units = 1)
+        private bool TryToConsumeBattery(int units = 1)
         {
             if (batteryUnit - units < 0)
                 return false;
 
             batteryUnit -= units;
             return true;
+        }
+
+        public bool TryToClean()
+        {
+            if (TryToConsumeBattery(5))
+            {
+                TryAddingToCleaned();
+                return true;
+            }
+
+            return false;
+        }
+
+        private void TryAddingToVisited()
+        {
+            try
+            {
+                var length = visited.Count;
+                visited.Add(new Coordinate(coordinate.X, coordinate.Y), length);
+            }
+            catch (Exception ex) { }
+        }
+
+        private void TryAddingToCleaned()
+        {
+            try
+            {
+                var length = cleaned.Count;
+                cleaned.Add(new Coordinate(coordinate.X, coordinate.Y), length);
+            }
+            catch (Exception ex) { }
         }
     }
 }
