@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,6 +48,9 @@
     <Compile Include="Commands\Clean.cs" />
     <Compile Include="Commands\TurnLeft.cs" />
     <Compile Include="Commands\TurnRight.cs" />
+    <Compile Include="FileReaders\InputValidations\Dictionary.cs" />
+    <Compile Include="FileReaders\InputValidations\InputValidation.cs" />
+    <Compile Include="FileReaders\ReadingInput.cs" />
     <Compile Include="InstructionExecutors\StandardBackOffInstructionsInitializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="InstructionExecutors\BackOffStrategiesExecutor.cs" />
@@ -60,6 +66,9 @@
       <Project>{C5253643-2889-456B-8A24-D3D20EF79694}</Project>
       <Name>Contracts</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

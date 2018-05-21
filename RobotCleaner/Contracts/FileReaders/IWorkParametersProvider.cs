@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Contracts.Map
+namespace Contracts.FileReaders
 {
-    public interface IMapProvider
+    public interface IWorkParametersProvider
     {
-        WorksParameters Read(string source);
+        WorksParameters Read();
     }
 }

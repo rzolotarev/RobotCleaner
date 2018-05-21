@@ -35,7 +35,7 @@ namespace RobotCleaner.Tests
             
             var walkingStrategie = new InstructionExecutor(positionState, tracker);
             var moq = new Mock<IBackOffStrategiesExecutor>();
-            var robot = new Robot(walkingStrategie, commands, moq.Object);
+            var robot = new Robot(walkingStrategie, commands, moq.Object, positionState);
             var result = robot.StartClean();
             Assert.AreEqual(87, result.Final.Battery);
             Assert.AreEqual(2, result.Final.X);
@@ -64,7 +64,7 @@ namespace RobotCleaner.Tests
 
             var backOffInitializer = new StandardBackOffInstructionsInitializer();
             var backOffStrategies = new BackOffStrategiesExecutor(positionState, tracker, backOffInitializer);
-            var robot = new Robot(walkingStrategie,commands, backOffStrategies);
+            var robot = new Robot(walkingStrategie,commands, backOffStrategies, positionState);
             var result = robot.StartClean();
             Assert.AreEqual(54, result.Final.Battery);
             Assert.AreEqual(2, result.Final.X);
@@ -93,7 +93,7 @@ namespace RobotCleaner.Tests
             var walkingStrategie = new InstructionExecutor(positionState, tracker);
             var backOffInitializer = new StandardBackOffInstructionsInitializer();
             var backOffStrategies = new BackOffStrategiesExecutor(positionState, tracker, backOffInitializer);
-            var robot = new Robot(walkingStrategie, commands, backOffStrategies);
+            var robot = new Robot(walkingStrategie, commands, backOffStrategies, positionState);
             var result = robot.StartClean();
             Assert.AreEqual(1040, result.Final.Battery);
             Assert.AreEqual(3, result.Final.X);
@@ -119,7 +119,7 @@ namespace RobotCleaner.Tests
 
             var walkingStrategie = new InstructionExecutor(positionState, tracker);
             var moq = new Mock<IBackOffStrategiesExecutor>();
-            var robot = new Robot(walkingStrategie, commands, moq.Object);
+            var robot = new Robot(walkingStrategie, commands, moq.Object, positionState);
             var result = robot.StartClean();
             Assert.AreEqual(4, result.Final.Battery);
             Assert.AreEqual(2, result.Final.X);
@@ -145,7 +145,7 @@ namespace RobotCleaner.Tests
 
             var walkingStrategie = new InstructionExecutor(positionState, tracker);
             var moq = new Mock<IBackOffStrategiesExecutor>();
-            var robot = new Robot(walkingStrategie, commands, moq.Object);
+            var robot = new Robot(walkingStrategie, commands, moq.Object, positionState);
             var result = robot.StartClean();
             Assert.AreEqual(0, result.Final.Battery);
             Assert.AreEqual(2, result.Final.X);

@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -44,15 +47,17 @@
     <Compile Include="Commands\Instructions.cs" />
     <Compile Include="Extensions\MatrixConvertionResult.cs" />
     <Compile Include="Extensions\MatrixUtil.cs" />
+    <Compile Include="FileReaders\JsonView\Input.cs" />
+    <Compile Include="FileReaders\JsonView\Start.cs" />
     <Compile Include="InstructionExecutors\IBackOffInstructionsInitializer.cs" />
     <Compile Include="Map\Coordinate.cs" />
     <Compile Include="Map\CoordinateComparer.cs" />
     <Compile Include="Map\Facing.cs" />
-    <Compile Include="Map\IMapProvider.cs" />
+    <Compile Include="FileReaders\IWorkParametersProvider.cs" />
     <Compile Include="Map\PlaceStatus.cs" />
     <Compile Include="Map\PositionState.cs" />
     <Compile Include="Map\Tracker.cs" />
-    <Compile Include="Map\WorksParameters.cs" />
+    <Compile Include="FileReaders\WorksParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Robot\CleaningResult.cs" />
     <Compile Include="Robot\FinalStateView.cs" />
@@ -61,6 +66,8 @@
     <Compile Include="InstructionExecutors\IBackOffStrategiesExecutor.cs" />
     <Compile Include="InstructionExecutors\ICommandExecutor.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

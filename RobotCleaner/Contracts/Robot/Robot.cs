@@ -14,23 +14,24 @@ namespace Contracts.Robot
         private readonly IInstructionExecutor _instructionExecutor;
         private readonly LinkedList<Instructions> _instructions;
         private readonly IBackOffStrategiesExecutor _backOffStrategies;
-        private PositionState position;
-        private int batteryUnit;
+        private PositionState positionState;        
 
         public Robot(IInstructionExecutor instructionExecutor, 
                      LinkedList<Instructions> instructions, 
-                     IBackOffStrategiesExecutor backOffStrategies)
+                     IBackOffStrategiesExecutor backOffStrategies,
+                     PositionState positionState)
         {
             _instructions = instructions;
             _instructionExecutor = instructionExecutor;
-            _backOffStrategies = backOffStrategies;            
+            _backOffStrategies = backOffStrategies;
+            this.positionState = positionState;
         }
 
         public CleaningResult StartClean()
         {                       
             //TODO - сделать логирование на консоль
             //TODO - чтение файла
-            // Чтение параметров о затратах из конфига            
+            //TODO: запись в файл
             var currentInstruction = _instructions.First;
             while (currentInstruction != null)
             {

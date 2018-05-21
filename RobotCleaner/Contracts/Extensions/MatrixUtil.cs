@@ -25,7 +25,10 @@ namespace Contracts.Extensions
                         if (sourceMatrix[i, j] == "null")
                             destMatrix[i, j] = PlaceStatus.Null;
                         else
+                        {
+                            //TODO- logging
                             return new MatrixConvertionResult() { Matrix = destMatrix };
+                        }
                     }
                         
                 }

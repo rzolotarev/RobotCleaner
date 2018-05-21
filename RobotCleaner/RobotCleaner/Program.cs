@@ -10,6 +10,7 @@ namespace RobotCleaner
     {
         static void Main(string[] args)
         {
+
         }
     }
 }
