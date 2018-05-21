@@ -14,20 +14,23 @@ namespace Contracts.Robot
         private readonly IInstructionExecutor _instructionExecutor;
         private readonly LinkedList<Instructions> _instructions;
         private readonly IBackOffStrategiesExecutor _backOffStrategies;
+        private PositionState position;
+        private int batteryUnit;
 
-        public Robot(IInstructionExecutor instructionExecutor, LinkedList<Instructions> instructions, IBackOffStrategiesExecutor backOffStrategies)
+        public Robot(IInstructionExecutor instructionExecutor, 
+                     LinkedList<Instructions> instructions, 
+                     IBackOffStrategiesExecutor backOffStrategies)
         {
             _instructions = instructions;
-            _instructionExecutor = instructionExecutor;            
-            _backOffStrategies = backOffStrategies;
+            _instructionExecutor = instructionExecutor;
+            _backOffStrategies = backOffStrategies;            
         }
 
         public CleaningResult StartClean()
         {                       
             //TODO - сделать логирование на консоль
             //TODO - чтение файла
-            // Чтение параметров о затратах из конфига
-            // Архитектура. Возможно убрать positionStateManager, а все перенести выше комманд
+            // Чтение параметров о затратах из конфига            
             var currentInstruction = _instructions.First;
             while (currentInstruction != null)
             {
@@ -40,7 +43,7 @@ namespace Contracts.Robot
                         //TODO: logging
                         return _instructionExecutor.GetResult();
                     }
-                }
+                }                
 
                 currentInstruction = currentInstruction.Next;
             }  

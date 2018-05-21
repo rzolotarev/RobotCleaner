@@ -8,11 +8,22 @@ using System.Threading.Tasks;
 
 namespace Services.Commands
 {
-    public class TurnRight : ICommand
+    public class TurnRight : Command
     {
-        public bool ExecuteCommand(PositionStateManager positionState)
+        public TurnRight(int consumeBattery): base(consumeBattery)
         {
-            return positionState.TryToTurnRight();
+        }
+
+        public override bool ExecuteCommand(PositionState positionState, Tracker tracker)
+        {
+            if (TryToConsumeBattery(positionState))
+            {
+                positionState.Facing = (Facing)((int)(++positionState.Facing) % 
+                                        (Enum.GetValues(typeof(Facing)).Length));
+                return true;
+            }
+
+            return false;            
         }
     }
 }

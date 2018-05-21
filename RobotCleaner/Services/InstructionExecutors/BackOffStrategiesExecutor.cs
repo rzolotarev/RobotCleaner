@@ -12,10 +12,12 @@ namespace Services.WalkingStrategies
 {
     public class BackOffStrategiesExecutor : BaseInstructionExecutor, IBackOffStrategiesExecutor
     {
-        private PositionStateManager _positionState;
+        private PositionState _positionState;
         private LinkedList<LinkedList<Instructions>> instructions = new LinkedList<LinkedList<Instructions>>();        
 
-        public BackOffStrategiesExecutor(PositionStateManager positionState, IBackOffInstructionsInitializer backOffInstructionInitializer)
+        public BackOffStrategiesExecutor(PositionState positionState, Tracker tracker,
+                                        IBackOffInstructionsInitializer backOffInstructionInitializer) 
+                                        : base(tracker)
         {
             _positionState = positionState;
             instructions = backOffInstructionInitializer.GetInstructions();
@@ -25,8 +27,8 @@ namespace Services.WalkingStrategies
         {
             var hitOnObstacle = false;
             var currentBackStageStrategie = instructions.First;
-            var sourcePosisionX = _positionState.Coordinate.X;
-            var sourcePosisionY = _positionState.Coordinate.Y;
+            var sourcePosisionX = _positionState.X;
+            var sourcePosisionY = _positionState.Y;
 
             while (currentBackStageStrategie != null)
             {
@@ -34,7 +36,7 @@ namespace Services.WalkingStrategies
                 while(currentCommand != null && !hitOnObstacle)
                 {
                     var command = CommandMapping[currentCommand.Value];
-                    var isSucceed = command.ExecuteCommand(_positionState);
+                    var isSucceed = command.ExecuteCommand(_positionState, Tracker);
                     if (!isSucceed)                    
                         hitOnObstacle = true;                    
                     else

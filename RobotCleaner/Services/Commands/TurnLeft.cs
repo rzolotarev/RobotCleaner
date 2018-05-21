@@ -8,11 +8,24 @@ using System.Threading.Tasks;
 
 namespace Services.Commands
 {
-    public class TurnLeft : ICommand
-    {  
-        public bool ExecuteCommand(PositionStateManager positionState)
-        {                           
-            return positionState.TryToTurnLeft();            
+    public class TurnLeft : Command
+    {
+        public TurnLeft(int consumeBattery) : base(consumeBattery)
+        {
+        }
+
+        public override bool ExecuteCommand(PositionState positionState, Tracker tracker)
+        {
+            if (TryToConsumeBattery(positionState))
+            {
+
+                positionState.Facing = --positionState.Facing < 0 ? 
+                                        (Facing)Enum.GetValues(typeof(Facing)).Length - 1
+                                        : positionState.Facing;
+                return true;
+            }
+
+            return false;        
         }
     }
 }

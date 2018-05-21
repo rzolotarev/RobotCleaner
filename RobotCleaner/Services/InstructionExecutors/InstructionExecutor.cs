@@ -13,24 +13,24 @@ namespace Services.WalkingStrategies
 {
     public class InstructionExecutor : BaseInstructionExecutor, IInstructionExecutor
     {        
-        private readonly PositionStateManager _positionState;        
+        private readonly PositionState _positionState;      
 
-        public InstructionExecutor(PositionStateManager positionState)
+        public InstructionExecutor(PositionState positionState, Tracker tracker) : base(tracker) 
         {
-            _positionState = positionState;            
-        }        
+            _positionState = positionState;
+        }
 
         public CleaningResult GetResult()
         {            
-            return new CleaningResult() {  Final = new FinalStateView(_positionState.Coordinate.X, 
-                _positionState.Coordinate.Y, _positionState.Facing.ToString(), _positionState.BatteryUnit) };
+            return new CleaningResult() {  Final = new FinalStateView(_positionState.X, 
+                _positionState.Y, _positionState.Facing.ToString(), _positionState.LeftBattery) };
         }
 
         public bool TryToExecuteInstruction(Instructions currentInstruction)
         {
-            ICommand command = null;
-            if(CommandMapping.TryGetValue(currentInstruction, out command))
-                return command.ExecuteCommand(_positionState);
+            Command command = null;
+            if (CommandMapping.TryGetValue(currentInstruction, out command))
+                return command.ExecuteCommand(_positionState, Tracker);                
             //TODO-logging
             return false;
         }

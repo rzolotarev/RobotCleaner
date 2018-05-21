@@ -1,5 +1,7 @@
 ﻿using Contracts.Commands;
+using Contracts.Map;
 using Services.Commands;
+using Settings.Common;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,13 +12,27 @@ namespace Services.WalkingStrategies
 {
     public class BaseInstructionExecutor
     {
-        protected Dictionary<Instructions, ICommand> CommandMapping = new Dictionary<Instructions, ICommand>()
+        protected Dictionary<Instructions, Command> CommandMapping = new Dictionary<Instructions, Command>();
+        protected Tracker Tracker;
+
+        public BaseInstructionExecutor(Tracker tracker)
         {
-            { Instructions.A, new Advance() },
-            { Instructions.B, new Back() },
-            { Instructions.C, new Clean() },
-            { Instructions.TL, new TurnLeft() },
-            { Instructions.TR, new TurnRight() },
-        };
+            Tracker = tracker;
+            InitalizeCommandMapping();
+        }
+
+        private void InitalizeCommandMapping()
+        {            
+            var advanceCommand = new Advance(AppSettings.SafeGet<int>(Instructions.A.ToString()));            
+            CommandMapping.Add(Instructions.A, advanceCommand);
+            var backCommand = new Back(AppSettings.SafeGet<int>(Instructions.B.ToString()));
+            CommandMapping.Add(Instructions.B, backCommand);
+            var cleanCommand = new Clean(AppSettings.SafeGet<int>(Instructions.C.ToString()));
+            CommandMapping.Add(Instructions.C, cleanCommand);
+            var turnLeft = new TurnLeft(AppSettings.SafeGet<int>(Instructions.TL.ToString()));
+            CommandMapping.Add(Instructions.TL, turnLeft);
+            var turnRight = new TurnRight(AppSettings.SafeGet<int>(Instructions.TR.ToString()));
+            CommandMapping.Add(Instructions.TR, turnRight);                    
+        }        
     }
 }

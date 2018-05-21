@@ -8,11 +8,21 @@ using System.Threading.Tasks;
 
 namespace Services.Commands
 {
-    public class Clean : ICommand
+    public class Clean : Command
     {
-        public bool ExecuteCommand(PositionStateManager positionState)
+        public Clean(int consumeBattery): base(consumeBattery)
         {
-            return positionState.TryToClean();            
         }
+
+        public override bool ExecuteCommand(PositionState positionState, Tracker tracker)
+        {
+            if (TryToConsumeBattery(positionState))
+            {
+                tracker.TryAddingToCleaned(positionState.X, positionState.Y);
+                return true;
+            }
+
+            return false;           
+        }  
     }
 }

@@ -52,6 +52,10 @@
     <Compile Include="InstructionExecutors\InstructionExecutor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{C0BFA619-5B89-4622-9AE3-118DC6CB0C8E}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Contracts\Contracts.csproj">
       <Project>{C5253643-2889-456B-8A24-D3D20EF79694}</Project>
       <Name>Contracts</Name>
