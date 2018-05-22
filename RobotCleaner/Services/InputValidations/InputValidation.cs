@@ -18,7 +18,7 @@ namespace Services.InputValidations
             Check.That(args[0] != args[1], Dictionary.DIFFERENT_FILENAMES);
             Check.That(!File.Exists(args[1]), $"{args[1]}: {Dictionary.TARGET_FILE_EXISTS}");
 
-            Check.That(new FileInfo(args[2]).CanCreate(), Dictionary.NoCreatePermission);
+            Check.That(new FileInfo(args[1]).CanCreate(), Dictionary.NoCreatePermission);
         }
     }
 }

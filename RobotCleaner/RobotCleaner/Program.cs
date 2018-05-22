@@ -38,18 +38,19 @@ namespace RobotCleaner
                 positionState.Y = instructions.PositionState.Y;
                 positionState.LeftBattery = instructions.PositionState.LeftBattery;
                 var parsedMap = instructions.Map.ToPlaceStatuses();
-                Check.That(parsedMap.IsSucceed, "Map is not parsed correctly");
+                Check.That(parsedMap.IsSucceed, "Map has not been parsed correctly");
                 positionState.SetMap(parsedMap.Matrix);
 
                 var robot = container.Resolve<IMachineCleaner>(new ParameterOverride("instructions", instructions.Commands));
                 var result = robot.StartClean();
                 var fileSaver = new FileWriter(result);
                 fileSaver.Save(args[1]);
-                ConsoleLogger.WriteError($"Result of program locates in {args[1]}");
+                ConsoleLogger.WriteSuccessInfo($"Result of program is located in {args[1]}");
             }
             catch (Exception ex)
             {
                 ConsoleLogger.WriteError("Program is ended with error");
+                Console.ReadKey();
             }
         }
     }
