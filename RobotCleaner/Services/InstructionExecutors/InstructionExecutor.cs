@@ -34,15 +34,14 @@ namespace Services.WalkingStrategies
                 return false;
             }
 
-            if (!command.ExecuteCommand(_positionState, Tracker))
-            {
-                var backOffSuccessful = _backOffStrategies.RunBackOffCommands();
-                if (!backOffSuccessful)
-                {
-                    ConsoleLogger.WriteDiagnosticInfo("Program is finished, as all back off strategies have been completed.");                    
-                    return false;
-                }
-            }
+            var result = command.ExecuteCommand(_positionState, Tracker);
+
+            if(result.Terminate)
+                return false;
+
+            if (!result.IsSuccesful)                            
+                if (!_backOffStrategies.RunBackOffCommands())
+                    return false;            
 
             return true;
         }

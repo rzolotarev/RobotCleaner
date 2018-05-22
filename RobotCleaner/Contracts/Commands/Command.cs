@@ -26,6 +26,6 @@ namespace Contracts.Commands
             return true;
         }
 
-        public abstract bool ExecuteCommand(PositionState positionState, Tracker tracker);        
+        public abstract CommandResult ExecuteCommand(PositionState positionState, Tracker tracker);        
     }
 }

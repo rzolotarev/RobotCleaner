@@ -26,8 +26,7 @@ namespace Services.Robots
         }
 
         public FinalResult StartClean()
-        {                                               
-            //TODO: запись в файл
+        {                                                           
             var currentInstruction = _instructions.First;
             while (currentInstruction != null)
             {

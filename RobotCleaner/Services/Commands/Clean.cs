@@ -14,15 +14,15 @@ namespace Services.Commands
         {
         }
 
-        public override bool ExecuteCommand(PositionState positionState, Tracker tracker)
+        public override CommandResult ExecuteCommand(PositionState positionState, Tracker tracker)
         {
             if (TryToConsumeBattery(positionState))
             {
                 tracker.TryAddingToCleaned(positionState.X, positionState.Y);
-                return true;
+                return new CommandResult(true);
             }
 
-            return false;           
+            return new CommandResult(false, true);   
         }  
     }
 }

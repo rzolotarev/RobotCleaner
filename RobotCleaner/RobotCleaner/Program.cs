@@ -49,9 +49,10 @@ namespace RobotCleaner
             }
             catch (Exception ex)
             {
-                ConsoleLogger.WriteError("Program is ended with error");
-                Console.ReadKey();
+                ConsoleLogger.WriteError($"Program is ended with error. {ex.Message}");                
             }
+
+            Console.ReadKey();
         }
     }
 }

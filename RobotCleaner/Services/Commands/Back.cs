@@ -14,10 +14,10 @@ namespace Services.Commands
         {
         }
 
-        public override bool ExecuteCommand(PositionState positionState, Tracker tracker)
+        public override CommandResult ExecuteCommand(PositionState positionState, Tracker tracker)
         {
             if (!TryToConsumeBattery(positionState))
-                return false;
+                return new CommandResult(false, true);
 
             var previousCoordinateX = positionState.X;
             var previousCoordinateY = positionState.Y;
@@ -37,13 +37,13 @@ namespace Services.Commands
                 if (positionState.PlaceIsAvailable())
                 {
                     tracker.TryAddingToVisited(positionState.X, positionState.Y);
-                    return true;
+                    return new CommandResult(true);
                 }
 
             positionState.X = previousCoordinateX;
             positionState.Y = previousCoordinateY;
 
-            return false;
+            return new CommandResult(false);
         }
     }
 }

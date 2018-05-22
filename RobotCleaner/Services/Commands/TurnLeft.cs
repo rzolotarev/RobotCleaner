@@ -14,18 +14,15 @@ namespace Services.Commands
         {
         }
 
-        public override bool ExecuteCommand(PositionState positionState, Tracker tracker)
+        public override CommandResult ExecuteCommand(PositionState positionState, Tracker tracker)
         {
-            if (TryToConsumeBattery(positionState))
-            {
+            if (!TryToConsumeBattery(positionState))
+                return new CommandResult(false, true);
 
-                positionState.Facing = --positionState.Facing < 0 ? 
-                                        (Facing)Enum.GetValues(typeof(Facing)).Length - 1
-                                        : positionState.Facing;
-                return true;
-            }
-
-            return false;        
+            positionState.Facing = --positionState.Facing < 0 ?
+                                    (Facing)Enum.GetValues(typeof(Facing)).Length - 1
+                                    : positionState.Facing;
+            return new CommandResult(true);
         }
     }
 }

@@ -40,8 +40,12 @@ namespace Services.InstructionExecutors
                         return false;
                     }
 
-                    if (!command.ExecuteCommand(_positionState, Tracker))
-                        hitOnObstacle = true;
+                    var result = command.ExecuteCommand(_positionState, Tracker);
+                    if (result.Terminate)
+                        return false;
+
+                    if(!result.IsSuccesful)
+                        hitOnObstacle = true;                                        
 
                     currentInstruction = currentInstruction.Next;
                 }

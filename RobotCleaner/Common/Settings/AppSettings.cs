@@ -20,24 +20,7 @@ namespace Settings.Common
 
             value = (T)Convert.ChangeType(stringValue, typeof(T));
             return true;
-        }
-
-        //TODO - убрать
-        public static TimeSpan GetTimeSpan(string key)
-        {
-            var value = Get<string>(key);
-            return TimeSpan.Parse(value);
-        }
-
-        //TODO - убрать
-        public static TimeSpan GetTimeSpanSafe(string key, TimeSpan defaultValue)
-        {
-            var value = SafeGet<string>(key);
-            if (!string.IsNullOrEmpty(value))
-                return TimeSpan.Parse(value);
-
-            return defaultValue;
-        }
+        }        
 
         public static T Get<T>(string key)
         {

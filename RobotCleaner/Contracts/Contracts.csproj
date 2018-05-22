@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\Command.cs" />
+    <Compile Include="Commands\CommandResult.cs" />
     <Compile Include="Commands\Instructions.cs" />
     <Compile Include="Extensions\MatrixConvertionResult.cs" />
     <Compile Include="Extensions\MatrixUtil.cs" />

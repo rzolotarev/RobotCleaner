@@ -14,16 +14,14 @@ namespace Services.Commands
         {
         }
 
-        public override bool ExecuteCommand(PositionState positionState, Tracker tracker)
+        public override CommandResult ExecuteCommand(PositionState positionState, Tracker tracker)
         {
-            if (TryToConsumeBattery(positionState))
-            {
+            if (!TryToConsumeBattery(positionState))
+                return new CommandResult(false, true);
+            
                 positionState.Facing = (Facing)((int)(++positionState.Facing) % 
                                         (Enum.GetValues(typeof(Facing)).Length));
-                return true;
-            }
-
-            return false;            
+            return new CommandResult(true);                       
         }
     }
 }
