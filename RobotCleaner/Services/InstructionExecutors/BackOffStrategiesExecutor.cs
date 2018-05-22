@@ -26,11 +26,11 @@ namespace Services.InstructionExecutors
         public bool RunBackOffCommands()
         {
             var hitOnObstacle = false;
-            var currentBackStageStrategie = instructions.First;      
+            var currentBackStageStrategy = instructions.First;      
 
-            while (currentBackStageStrategie != null)
+            while (currentBackStageStrategy != null)
             {
-                var currentInstruction = currentBackStageStrategie.Value.First;
+                var currentInstruction = currentBackStageStrategy.Value.First;
                 while (currentInstruction != null && !hitOnObstacle)
                 {
                     Command command = null;
@@ -54,7 +54,7 @@ namespace Services.InstructionExecutors
                     return true;
 
                 hitOnObstacle = false;
-                currentBackStageStrategie = currentBackStageStrategie.Next;                
+                currentBackStageStrategy = currentBackStageStrategy.Next;                
             }
 
             return false;
