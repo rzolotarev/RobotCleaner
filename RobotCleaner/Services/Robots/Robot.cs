@@ -41,7 +41,8 @@ namespace Services.Robots
         private FinalResult GetResult()
         {
             var finalResult = new FinalResult();
-            finalResult.FinalState = new FinalState(_positionState.X, _positionState.Y, _positionState.Facing.ToString(), _positionState.LeftBattery);
+            finalResult.FinalState = new FinalState(_positionState.X, _positionState.Y, _positionState.Facing.ToString());
+            finalResult.Battery = _positionState.LeftBattery;
             finalResult.Visited = _instructionExecutor.GetVisited();
             finalResult.Cleaned = _instructionExecutor.GetCleaned();
             return finalResult;

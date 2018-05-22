@@ -12,14 +12,12 @@ namespace Contracts.Robots
         public int X { get; set; }
         public int Y { get; set; }
         public string Facing { get; set; }
-        public int Battery { get; set; }
-
-        public FinalState(int x, int y, string facing, int battery)
+        
+        public FinalState(int x, int y, string facing)
         {
             X = x;
             Y = y;
-            Facing = facing;
-            Battery = battery;
+            Facing = facing;            
         }
     }
 }

@@ -44,7 +44,7 @@ namespace RobotCleaner.Tests
           
             var robot = container.Resolve<IMachineCleaner>(new ParameterOverride("instructions", commands));         
             var result = robot.StartClean();
-            Assert.AreEqual(87, result.FinalState.Battery);
+            Assert.AreEqual(87, result.Battery);
             Assert.AreEqual(2, result.FinalState.X);
             Assert.AreEqual(2, result.FinalState.Y);
             Assert.AreEqual("W", result.FinalState.Facing);
@@ -75,7 +75,7 @@ namespace RobotCleaner.Tests
             commands.AddLast(Contracts.Commands.Instructions.C);            
             var robot = container.Resolve<IMachineCleaner>(new ParameterOverride("instructions", commands));
             var result = robot.StartClean();
-            Assert.AreEqual(54, result.FinalState.Battery);
+            Assert.AreEqual(54, result.Battery);
             Assert.AreEqual(2, result.FinalState.X);
             Assert.AreEqual(0, result.FinalState.Y);
             Assert.AreEqual("E", result.FinalState.Facing);
@@ -108,7 +108,7 @@ namespace RobotCleaner.Tests
             
             var robot = container.Resolve<IMachineCleaner>(new ParameterOverride("instructions", commands));
             var result = robot.StartClean();
-            Assert.AreEqual(1040, result.FinalState.Battery);
+            Assert.AreEqual(1040, result.Battery);
             Assert.AreEqual(3, result.FinalState.X);
             Assert.AreEqual(2, result.FinalState.Y);
             Assert.AreEqual("E", result.FinalState.Facing);
@@ -138,7 +138,7 @@ namespace RobotCleaner.Tests
      
             var robot = container.Resolve<IMachineCleaner>(new ParameterOverride("instructions", commands));
             var result = robot.StartClean();
-            Assert.AreEqual(4, result.FinalState.Battery);
+            Assert.AreEqual(4, result.Battery);
             Assert.AreEqual(2, result.FinalState.X);
             Assert.AreEqual(2, result.FinalState.Y);
             Assert.AreEqual("E", result.FinalState.Facing);
@@ -170,7 +170,7 @@ namespace RobotCleaner.Tests
 
             var robot = container.Resolve<IMachineCleaner>(new ParameterOverride("instructions", commands));
             var result = robot.StartClean();
-            Assert.AreEqual(0, result.FinalState.Battery);
+            Assert.AreEqual(0, result.Battery);
             Assert.AreEqual(2, result.FinalState.X);
             Assert.AreEqual(2, result.FinalState.Y);
             Assert.AreEqual("N", result.FinalState.Facing);

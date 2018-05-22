@@ -9,6 +9,8 @@ namespace Contracts.Robots
 {
     public class FinalResult
     {
+        public int Battery { get; set; }
+
         public FinalState FinalState { get; set; }
         public List<Coordinate> Visited { get; set; }
         public List<Coordinate> Cleaned { get; set; }
