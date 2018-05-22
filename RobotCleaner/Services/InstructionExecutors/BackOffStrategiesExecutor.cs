@@ -1,4 +1,5 @@
-﻿using Contracts.Commands;
+﻿using Common.Outputs;
+using Contracts.Commands;
 using Contracts.InstructionExecutors;
 using Contracts.Map;
 using Contracts.WalkingStrategies;
@@ -26,28 +27,31 @@ namespace Services.WalkingStrategies
         public bool RunBackOffCommands()
         {
             var hitOnObstacle = false;
-            var currentBackStageStrategie = instructions.First;
-            var sourcePosisionX = _positionState.X;
-            var sourcePosisionY = _positionState.Y;
+            var currentBackStageStrategie = instructions.First;      
 
             while (currentBackStageStrategie != null)
             {
-                var currentCommand = currentBackStageStrategie.Value.First;
-                while(currentCommand != null && !hitOnObstacle)
+                var currentInstruction = currentBackStageStrategie.Value.First;
+                while (currentInstruction != null && !hitOnObstacle)
                 {
-                    var command = CommandMapping[currentCommand.Value];
-                    var isSucceed = command.ExecuteCommand(_positionState, Tracker);
-                    if (!isSucceed)                    
-                        hitOnObstacle = true;                    
-                    else
-                        currentCommand = currentCommand.Next;                    
+                    Command command = null;
+                    if (!CommandMapping.TryGetValue(currentInstruction.Value, out command))
+                    {
+                        ConsoleLogger.WriteError($"There is no matching back off command to instruction: {currentInstruction.Value}");
+                        return false;
+                    }
+
+                    if (!command.ExecuteCommand(_positionState, Tracker))
+                        hitOnObstacle = true;
+
+                    currentInstruction = currentInstruction.Next;
                 }
 
                 if (!hitOnObstacle)
                     return true;
 
-                currentBackStageStrategie = currentBackStageStrategie.Next;
                 hitOnObstacle = false;
+                currentBackStageStrategie = currentBackStageStrategie.Next;                
             }
 
             return false;

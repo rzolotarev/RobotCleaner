@@ -31,16 +31,16 @@ namespace RobotCleaner.Tests
             commands.AddLast(Contracts.Commands.Instructions.A);
             commands.AddLast(Contracts.Commands.Instructions.C);
             commands.AddLast(Contracts.Commands.Instructions.TL);
-            commands.AddLast(Contracts.Commands.Instructions.TL);            
-            
-            var walkingStrategie = new InstructionExecutor(positionState, tracker);
+            commands.AddLast(Contracts.Commands.Instructions.TL);
+
             var moq = new Mock<IBackOffStrategiesExecutor>();
-            var robot = new Robot(walkingStrategie, commands, moq.Object, positionState);
+            var walkingStrategie = new InstructionExecutor(positionState, tracker, moq.Object);            
+            var robot = new Robot(walkingStrategie, commands, positionState);
             var result = robot.StartClean();
-            Assert.AreEqual(87, result.Final.Battery);
-            Assert.AreEqual(2, result.Final.X);
-            Assert.AreEqual(2, result.Final.Y);
-            Assert.AreEqual("W", result.Final.Facing);
+            Assert.AreEqual(87, result.FinalState.Battery);
+            Assert.AreEqual(2, result.FinalState.X);
+            Assert.AreEqual(2, result.FinalState.Y);
+            Assert.AreEqual("W", result.FinalState.Facing);
         }
 
         [Test]
@@ -59,17 +59,18 @@ namespace RobotCleaner.Tests
             commands.AddLast(Contracts.Commands.Instructions.C);
             commands.AddLast(Contracts.Commands.Instructions.TR);
             commands.AddLast(Contracts.Commands.Instructions.A);
-            commands.AddLast(Contracts.Commands.Instructions.C);            
-            var walkingStrategie = new InstructionExecutor(positionState, tracker);
-
+            commands.AddLast(Contracts.Commands.Instructions.C);
             var backOffInitializer = new StandardBackOffInstructionsInitializer();
             var backOffStrategies = new BackOffStrategiesExecutor(positionState, tracker, backOffInitializer);
-            var robot = new Robot(walkingStrategie,commands, backOffStrategies, positionState);
+            var walkingStrategie = new InstructionExecutor(positionState, tracker, backOffStrategies);
+
+            
+            var robot = new Robot(walkingStrategie,commands, positionState);
             var result = robot.StartClean();
-            Assert.AreEqual(54, result.Final.Battery);
-            Assert.AreEqual(2, result.Final.X);
-            Assert.AreEqual(0, result.Final.Y);
-            Assert.AreEqual("E", result.Final.Facing);
+            Assert.AreEqual(54, result.FinalState.Battery);
+            Assert.AreEqual(2, result.FinalState.X);
+            Assert.AreEqual(0, result.FinalState.Y);
+            Assert.AreEqual("E", result.FinalState.Facing);
         }
 
         [Test]
@@ -90,15 +91,16 @@ namespace RobotCleaner.Tests
             commands.AddLast(Contracts.Commands.Instructions.TR);
             commands.AddLast(Contracts.Commands.Instructions.A);
             commands.AddLast(Contracts.Commands.Instructions.C);
-            var walkingStrategie = new InstructionExecutor(positionState, tracker);
+       
             var backOffInitializer = new StandardBackOffInstructionsInitializer();
             var backOffStrategies = new BackOffStrategiesExecutor(positionState, tracker, backOffInitializer);
-            var robot = new Robot(walkingStrategie, commands, backOffStrategies, positionState);
+            var walkingStrategie = new InstructionExecutor(positionState, tracker, backOffStrategies);
+            var robot = new Robot(walkingStrategie, commands, positionState);
             var result = robot.StartClean();
-            Assert.AreEqual(1040, result.Final.Battery);
-            Assert.AreEqual(3, result.Final.X);
-            Assert.AreEqual(2, result.Final.Y);
-            Assert.AreEqual("E", result.Final.Facing);
+            Assert.AreEqual(1040, result.FinalState.Battery);
+            Assert.AreEqual(3, result.FinalState.X);
+            Assert.AreEqual(2, result.FinalState.Y);
+            Assert.AreEqual("E", result.FinalState.Facing);
         }
 
         [Test]
@@ -117,14 +119,15 @@ namespace RobotCleaner.Tests
             commands.AddLast(Contracts.Commands.Instructions.TL);
             commands.AddLast(Contracts.Commands.Instructions.TL);
 
-            var walkingStrategie = new InstructionExecutor(positionState, tracker);
             var moq = new Mock<IBackOffStrategiesExecutor>();
-            var robot = new Robot(walkingStrategie, commands, moq.Object, positionState);
+            var walkingStrategie = new InstructionExecutor(positionState, tracker, moq.Object);
+            
+            var robot = new Robot(walkingStrategie, commands, positionState);
             var result = robot.StartClean();
-            Assert.AreEqual(4, result.Final.Battery);
-            Assert.AreEqual(2, result.Final.X);
-            Assert.AreEqual(2, result.Final.Y);
-            Assert.AreEqual("E", result.Final.Facing);
+            Assert.AreEqual(4, result.FinalState.Battery);
+            Assert.AreEqual(2, result.FinalState.X);
+            Assert.AreEqual(2, result.FinalState.Y);
+            Assert.AreEqual("E", result.FinalState.Facing);
         }
 
         [Test]
@@ -143,14 +146,14 @@ namespace RobotCleaner.Tests
             commands.AddLast(Contracts.Commands.Instructions.TL);
             commands.AddLast(Contracts.Commands.Instructions.TL);
 
-            var walkingStrategie = new InstructionExecutor(positionState, tracker);
             var moq = new Mock<IBackOffStrategiesExecutor>();
-            var robot = new Robot(walkingStrategie, commands, moq.Object, positionState);
+            var walkingStrategie = new InstructionExecutor(positionState, tracker, moq.Object);            
+            var robot = new Robot(walkingStrategie, commands, positionState);
             var result = robot.StartClean();
-            Assert.AreEqual(0, result.Final.Battery);
-            Assert.AreEqual(2, result.Final.X);
-            Assert.AreEqual(2, result.Final.Y);
-            Assert.AreEqual("N", result.Final.Facing);
+            Assert.AreEqual(0, result.FinalState.Battery);
+            Assert.AreEqual(2, result.FinalState.X);
+            Assert.AreEqual(2, result.FinalState.Y);
+            Assert.AreEqual("N", result.FinalState.Facing);
         }
     }
 }

@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Contracts.Robot
 {
-    public class CleaningResult
+    public class FinalResult
     {
-        public FinalStateView Final { get; set; }
+        public FinalState FinalState { get; set; }
         public List<Coordinate> Visited { get; set; }
         public List<Coordinate> Cleaned { get; set; }
     }

@@ -15,23 +15,16 @@ using System.Threading.Tasks;
 namespace Services.FileReaders
 {
     public class ReadingInput : IWorkParametersProvider
-    {
-        private readonly InputValidation _inputValidation;
-        private readonly string[] _args;
-
-        public ReadingInput(string[] args, InputValidation inputValidation)
-        {
-            _args = args;
-            _inputValidation = inputValidation;
+    {        
+        public ReadingInput()
+        {                     
         }
 
-        public WorksParameters Read()
-        {            
-            _inputValidation.CheckInputParameters(_args);
-
+        public WorksParameters Read(string pathToFile)
+        {                        
             try
             {                
-                var json = File.ReadAllText(_args[0]);
+                var json = File.ReadAllText(pathToFile);
                 var info = JsonConvert.DeserializeObject<Input>(json);
                 var workParameters = new WorksParameters();
                 LinkedList<Instructions> instructions = new LinkedList<Instructions>();

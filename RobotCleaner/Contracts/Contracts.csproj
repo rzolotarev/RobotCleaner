@@ -59,7 +59,7 @@
     <Compile Include="Map\Tracker.cs" />
     <Compile Include="FileReaders\WorksParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Robot\CleaningResult.cs" />
+    <Compile Include="Robot\FinalResult.cs" />
     <Compile Include="Robot\FinalStateView.cs" />
     <Compile Include="Robot\IMachineCleaner.cs" />
     <Compile Include="Robot\Robot.cs" />

@@ -1,4 +1,5 @@
-﻿using Contracts.Commands;
+﻿using Common.Outputs;
+using Contracts.Commands;
 using Contracts.Map;
 using Contracts.Robot;
 using Contracts.WalkingStrategies;
@@ -13,26 +14,38 @@ namespace Services.WalkingStrategies
 {
     public class InstructionExecutor : BaseInstructionExecutor, IInstructionExecutor
     {        
-        private readonly PositionState _positionState;      
+        private readonly PositionState _positionState;
+        private readonly IBackOffStrategiesExecutor _backOffStrategies;
 
-        public InstructionExecutor(PositionState positionState, Tracker tracker) : base(tracker) 
+        public InstructionExecutor(PositionState positionState, Tracker tracker, IBackOffStrategiesExecutor backOffStrategies) : base(tracker) 
         {
             _positionState = positionState;
+            _backOffStrategies = backOffStrategies;
         }
 
-        public CleaningResult GetResult()
-        {            
-            return new CleaningResult() {  Final = new FinalStateView(_positionState.X, 
-                _positionState.Y, _positionState.Facing.ToString(), _positionState.LeftBattery) };
-        }
+        public List<Coordinate> GetCleaned() => Tracker.Cleaned;
+        public List<Coordinate> GetVisited() => Tracker.Visited;   
 
         public bool TryToExecuteInstruction(Instructions currentInstruction)
         {
             Command command = null;
-            if (CommandMapping.TryGetValue(currentInstruction, out command))
-                return command.ExecuteCommand(_positionState, Tracker);                
-            //TODO-logging
-            return false;
+            if (!CommandMapping.TryGetValue(currentInstruction, out command))
+            {
+                ConsoleLogger.WriteError($"There is no matching command to instruction: {currentInstruction}");
+                return false;
+            }
+
+            if (!command.ExecuteCommand(_positionState, Tracker))
+            {
+                var backOffSuccessful = _backOffStrategies.RunBackOffCommands();
+                if (!backOffSuccessful)
+                {
+                    ConsoleLogger.WriteDiagnosticInfo("Program is finished, as all back off strategies have been completed.");                    
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

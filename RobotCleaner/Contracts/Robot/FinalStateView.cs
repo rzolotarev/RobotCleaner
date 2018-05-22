@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 
 namespace Contracts.Robot
 {
-    public class FinalStateView
+    public class FinalState
     {
         public int X { get; set; }
         public int Y { get; set; }
         public string Facing { get; set; }
         public int Battery { get; set; }
 
-        public FinalStateView(int x, int y, string facing, int battery)
+        public FinalState(int x, int y, string facing, int battery)
         {
             X = x;
             Y = y;

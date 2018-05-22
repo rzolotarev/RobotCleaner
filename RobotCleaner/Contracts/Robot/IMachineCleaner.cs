@@ -9,6 +9,6 @@ namespace Contracts.Robot
 {
     public interface IMachineCleaner
     {
-        CleaningResult StartClean();
+        FinalResult StartClean();
     }
 }

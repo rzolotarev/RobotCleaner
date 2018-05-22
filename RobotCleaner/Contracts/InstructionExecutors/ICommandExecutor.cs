@@ -1,4 +1,5 @@
 ﻿using Contracts.Commands;
+using Contracts.Map;
 using Contracts.Robot;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace Contracts.WalkingStrategies
     public interface IInstructionExecutor
     {
         bool TryToExecuteInstruction(Instructions instruction);                     
-        CleaningResult GetResult();
+        List<Coordinate> GetVisited();
+        List<Coordinate> GetCleaned();
     }
 }

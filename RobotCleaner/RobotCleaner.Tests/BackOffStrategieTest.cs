@@ -37,17 +37,13 @@ namespace RobotCleaner.Tests
             var tracker = new Tracker(positionState.X, positionState.Y);
             var backOffStrategies = new BackOffStrategiesExecutor(positionState, tracker, backOffInitializer);
             
-            var walkingStrategie = new InstructionExecutor(positionState, tracker);
+            var walkingStrategie = new InstructionExecutor(positionState, tracker, backOffStrategies);
             var currentCommand = commands.First;
             while (currentCommand != null)
             {
                 var isSuccessful = walkingStrategie.TryToExecuteInstruction(currentCommand.Value);
                 if (!isSuccessful)
-                {
-                    var backOffSuccessful = backOffStrategies.RunBackOffCommands();
-                    if (!backOffSuccessful)
-                        break;
-                }
+                    break;
 
                 currentCommand = currentCommand.Next;
             }
@@ -82,17 +78,13 @@ namespace RobotCleaner.Tests
             var backOffInitializer = new StandardBackOffInstructionsInitializer();
             var tracker = new Tracker(positionState.X, positionState.Y);
             var backOffStrategies = new BackOffStrategiesExecutor(positionState, tracker, backOffInitializer);
-            var instructionExecutor = new InstructionExecutor(positionState, tracker);
+            var instructionExecutor = new InstructionExecutor(positionState, tracker, backOffStrategies);
             var currentCommand = commands.First;
             while (currentCommand != null)
             {
                 var isSuccessful = instructionExecutor.TryToExecuteInstruction(currentCommand.Value);
                 if (!isSuccessful)
-                {
-                    var backOffSuccessful = backOffStrategies.RunBackOffCommands();
-                    if (!backOffSuccessful)
-                        break;
-                }
+                    break;                
 
                 currentCommand = currentCommand.Next;
             }

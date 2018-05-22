@@ -8,6 +8,6 @@ namespace Contracts.FileReaders
 {
     public interface IWorkParametersProvider
     {
-        WorksParameters Read();
+        WorksParameters Read(string pathToFile);
     }
 }

@@ -13,7 +13,7 @@ namespace Services.WalkingStrategies
     public class BaseInstructionExecutor
     {
         protected Dictionary<Instructions, Command> CommandMapping = new Dictionary<Instructions, Command>();
-        protected Tracker Tracker;
+        protected Tracker Tracker { get; set; }
 
         public BaseInstructionExecutor(Tracker tracker)
         {
