@@ -1,4 +1,5 @@
-﻿using Contracts.Map;
+﻿using Common.Outputs;
+using Contracts.Map;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,7 @@ namespace Contracts.Extensions
                             destMatrix[i, j] = PlaceStatus.Null;
                         else
                         {
-                            //TODO- logging
+                            ConsoleLogger.WriteError($"Can't be parsed element of map {sourceMatrix[i,j]}");                            
                             return new MatrixConvertionResult() { Matrix = destMatrix };
                         }
                     }

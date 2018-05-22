@@ -1,9 +1,11 @@
 ﻿using Contracts.Extensions;
+using Contracts.InstructionExecutors;
 using Contracts.Map;
 using NUnit.Framework;
+using Services.Container;
 using Services.InstructionExecutors;
 using Services.WalkingStrategies;
-using System;
+using Unity;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,11 +19,17 @@ namespace RobotCleaner.Tests
         [Test]
         public void Test1BackOffStrategie()
         {
-            
+            var container = Container.BuildContainer();
             var map = new string[4, 4] { { "S", "S", "S", "S" },{ "S", "S", "C", "S" },
                                          { "S", "S", "S", "S" }, {"S", "Null", "S", "S"} };
-            var newMap = map.ToPlaceStatuses().Matrix;
-            var positionState = new PositionState(3, 0, Facing.N, 80, newMap);
+            var newMap = map.ToPlaceStatuses().Matrix;            
+
+            var positionState = container.Resolve<PositionState>();
+            positionState.Facing = Facing.N;
+            positionState.X = 3;
+            positionState.Y = 0;
+            positionState.LeftBattery = 80;
+            positionState.SetMap(newMap);
 
             var commands = new LinkedList<Contracts.Commands.Instructions>();
             commands.AddLast(Contracts.Commands.Instructions.TL);
@@ -32,12 +40,9 @@ namespace RobotCleaner.Tests
             commands.AddLast(Contracts.Commands.Instructions.TR);
             commands.AddLast(Contracts.Commands.Instructions.A);
             commands.AddLast(Contracts.Commands.Instructions.C);
-
-            var backOffInitializer = new StandardBackOffInstructionsInitializer();
-            var tracker = new Tracker(positionState.X, positionState.Y);
-            var backOffStrategies = new BackOffStrategiesExecutor(positionState, tracker, backOffInitializer);
+                                    
             
-            var walkingStrategie = new InstructionExecutor(positionState, tracker, backOffStrategies);
+            var walkingStrategie = container.Resolve<IInstructionExecutor>();
             var currentCommand = commands.First;
             while (currentCommand != null)
             {
@@ -48,8 +53,8 @@ namespace RobotCleaner.Tests
                 currentCommand = currentCommand.Next;
             }
 
-            var visited = tracker.Visited;
-            var cleaned = tracker.Cleaned;
+            var visited = container.Resolve<Tracker>().Visited;
+            var cleaned = container.Resolve<Tracker>().Cleaned;
             Assert.AreEqual(54, positionState.LeftBattery);
             Assert.AreEqual(2, positionState.X);
             Assert.AreEqual(0, positionState.Y);
@@ -59,11 +64,17 @@ namespace RobotCleaner.Tests
         [Test]
         public void Test2BackOffStrategie()
         {
-            
+            var container = Container.BuildContainer();
+
             var map = new string[4, 4] { { "S", "S", "S", "S" },{ "S", "S", "C", "S" },
                                          { "S", "S", "S", "S" }, {"S", "null", "S", "S"} };
-            var newMap = map.ToPlaceStatuses().Matrix;
-            var positionState = new PositionState(3, 1, Facing.S, 1094, newMap);
+            var newMap = map.ToPlaceStatuses().Matrix;            
+            var positionState = container.Resolve<PositionState>();
+            positionState.Facing = Facing.S;
+            positionState.X = 3;
+            positionState.Y = 1;
+            positionState.LeftBattery = 1094;
+            positionState.SetMap(newMap);
 
             var commands = new LinkedList<Contracts.Commands.Instructions>();
             commands.AddLast(Contracts.Commands.Instructions.TR);
@@ -75,10 +86,7 @@ namespace RobotCleaner.Tests
             commands.AddLast(Contracts.Commands.Instructions.A);
             commands.AddLast(Contracts.Commands.Instructions.C);
 
-            var backOffInitializer = new StandardBackOffInstructionsInitializer();
-            var tracker = new Tracker(positionState.X, positionState.Y);
-            var backOffStrategies = new BackOffStrategiesExecutor(positionState, tracker, backOffInitializer);
-            var instructionExecutor = new InstructionExecutor(positionState, tracker, backOffStrategies);
+            var instructionExecutor = container.Resolve<IInstructionExecutor>();            
             var currentCommand = commands.First;
             while (currentCommand != null)
             {
@@ -89,7 +97,7 @@ namespace RobotCleaner.Tests
                 currentCommand = currentCommand.Next;
             }
 
-            var actulaVisited = tracker.Visited;
+            var actulaVisited = container.Resolve<Tracker>().Visited;
             var expectedVisited = new List<Coordinate>()
             {
                 new Coordinate(2,2),
@@ -106,7 +114,7 @@ namespace RobotCleaner.Tests
                 new Coordinate(3,0),                
                 new Coordinate(3,2)
             };
-            var actualCleaned = tracker.Cleaned;
+            var actualCleaned = container.Resolve<Tracker>().Cleaned;
             Assert.AreEqual(expectedCleaned.Count, actualCleaned.Count);
             actualCleaned.ForEach(a => Assert.That(expectedCleaned.Contains(a)));
 

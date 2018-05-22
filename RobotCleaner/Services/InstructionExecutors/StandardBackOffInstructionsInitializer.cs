@@ -1,5 +1,7 @@
-﻿using Contracts.Commands;
+﻿using Common.Exceptions;
+using Contracts.Commands;
 using Contracts.InstructionExecutors;
+using Contracts.Settings;
 using Settings.Common;
 using System;
 using System.Collections.Generic;
@@ -11,12 +13,17 @@ namespace Services.InstructionExecutors
 {
     public class StandardBackOffInstructionsInitializer : IBackOffInstructionsInitializer
     {
-        const string BackOffStrategies = "BackOffStrategies";
+        private readonly BackOffSettings _backOffSettings;
+
+        public StandardBackOffInstructionsInitializer(BackOffSettings backOffSettings)
+        {
+            _backOffSettings = backOffSettings;
+        }
 
         public LinkedList<LinkedList<Instructions>> GetInstructions()
         {
             var instructions = new LinkedList<LinkedList<Instructions>>();
-            var strategies = AppSettings.SafeGet<string>(BackOffStrategies);
+            var strategies = _backOffSettings.Strategies;
             strategies.Split(';').ToList().ForEach(strategie =>
             {
                 var currentStrategie = new LinkedList<Instructions>();
@@ -25,43 +32,13 @@ namespace Services.InstructionExecutors
                 {
                     Instructions currentInstruction;
 
-                    if (Enum.TryParse(command, out currentInstruction))
-                        currentStrategie.AddLast(currentInstruction);
-                    else                                
-                        throw new Exception($"Error parsing back off strategie: {command}");                    
+                    Check.That(Enum.TryParse(command, out currentInstruction), $"Error parsing back off strategie: {command}");
+
+                    currentStrategie.AddLast(currentInstruction);                    
                 });
 
                 instructions.AddLast(currentStrategie);
-            });            
-            //var firstBackOff = 
-            //firstBackOff.AddLast(Instructions.TR);
-            //firstBackOff.AddLast(Instructions.A);
-            //instructions.AddLast(firstBackOff);
-            //var secondBackOff = new LinkedList<Instructions>();
-            //secondBackOff.AddLast(Instructions.TL);
-            //secondBackOff.AddLast(Instructions.B);
-            //secondBackOff.AddLast(Instructions.TR);
-            //secondBackOff.AddLast(Instructions.A);
-            //instructions.AddLast(secondBackOff);
-
-            //var thirdBackOff = new LinkedList<Instructions>();
-            //thirdBackOff.AddLast(Instructions.TL);
-            //thirdBackOff.AddLast(Instructions.TL);
-            //thirdBackOff.AddLast(Instructions.A);
-            //instructions.AddLast(thirdBackOff);
-
-            //var fourthBackOff = new LinkedList<Instructions>();
-            //fourthBackOff.AddLast(Instructions.TR);
-            //fourthBackOff.AddLast(Instructions.B);
-            //fourthBackOff.AddLast(Instructions.TR);
-            //fourthBackOff.AddLast(Instructions.A);
-            //instructions.AddLast(fourthBackOff);
-
-            //var fifthBackOff = new LinkedList<Instructions>();
-            //fifthBackOff.AddLast(Instructions.TL);
-            //fifthBackOff.AddLast(Instructions.TL);
-            //fifthBackOff.AddLast(Instructions.A);
-            //instructions.AddLast(fifthBackOff);
+            });                     
             return instructions;
         }
     }

@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Contracts.InstructionExecutors
+namespace Contracts.FileWriters
 {
-    public interface IBackOffStrategiesExecutor
+    public interface IFileWriter
     {
-        bool RunBackOffCommands();
+        void Save(string destPathToFile);
     }
 }

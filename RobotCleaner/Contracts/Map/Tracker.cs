@@ -10,6 +10,12 @@ namespace Contracts.Map
     {
         private Dictionary<Coordinate, int> visited { get; set; }
         private Dictionary<Coordinate, int> cleaned { get; set; }
+        
+        public Tracker(PositionState positionState)
+        {
+            visited = new Dictionary<Coordinate, int>(new CoordinateComparer()) { { new Coordinate(positionState.X, positionState.Y), 0 } };
+            cleaned = new Dictionary<Coordinate, int>(new CoordinateComparer());
+        }
 
         public Tracker(int x, int y)
         {

@@ -49,6 +49,7 @@
     <Compile Include="Extensions\MatrixUtil.cs" />
     <Compile Include="FileReaders\JsonView\Input.cs" />
     <Compile Include="FileReaders\JsonView\Start.cs" />
+    <Compile Include="FileWriters\IFileWriter.cs" />
     <Compile Include="InstructionExecutors\IBackOffInstructionsInitializer.cs" />
     <Compile Include="Map\Coordinate.cs" />
     <Compile Include="Map\CoordinateComparer.cs" />
@@ -59,15 +60,21 @@
     <Compile Include="Map\Tracker.cs" />
     <Compile Include="FileReaders\WorksParameters.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Robot\FinalResult.cs" />
-    <Compile Include="Robot\FinalStateView.cs" />
-    <Compile Include="Robot\IMachineCleaner.cs" />
-    <Compile Include="Robot\Robot.cs" />
+    <Compile Include="Robots\FinalResult.cs" />
+    <Compile Include="Robots\FinalStateView.cs" />
+    <Compile Include="Robots\IMachineCleaner.cs" />
     <Compile Include="InstructionExecutors\IBackOffStrategiesExecutor.cs" />
-    <Compile Include="InstructionExecutors\ICommandExecutor.cs" />
+    <Compile Include="InstructionExecutors\IInstructionExecutor.cs" />
+    <Compile Include="Settings\BackOffSettings.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Common\Common.csproj">
+      <Project>{C0BFA619-5B89-4622-9AE3-118DC6CB0C8E}</Project>
+      <Name>Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

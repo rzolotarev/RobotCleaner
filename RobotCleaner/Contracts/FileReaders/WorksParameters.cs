@@ -9,8 +9,9 @@ using System.Threading.Tasks;
 namespace Contracts.FileReaders
 {
     public class WorksParameters
-    {         
-        public PositionState PositionState;
-        public LinkedList<Instructions> Commands;        
+    {
+        public string[,] Map { get; set; }
+        public PositionState PositionState { get; set; }
+        public LinkedList<Instructions> Commands { get; set; }
     }
 }

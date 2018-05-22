@@ -1,13 +1,14 @@
 ﻿using Contracts.Commands;
+using Contracts.InstructionExecutors;
 using Contracts.Map;
-using Contracts.WalkingStrategies;
+using Contracts.Robots;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Contracts.Robot
+namespace Services.Robots
 {
     public class Robot : IMachineCleaner
     {                
@@ -30,8 +31,7 @@ namespace Contracts.Robot
             var currentInstruction = _instructions.First;
             while (currentInstruction != null)
             {
-                var isSuccessful = _instructionExecutor.TryToExecuteInstruction(currentInstruction.Value);
-                if (!isSuccessful)                
+                if(!_instructionExecutor.TryToExecuteInstruction(currentInstruction.Value))                
                     return GetResult();
 
                 currentInstruction = currentInstruction.Next;                                

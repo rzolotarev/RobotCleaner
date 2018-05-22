@@ -2,14 +2,13 @@
 using Contracts.Commands;
 using Contracts.InstructionExecutors;
 using Contracts.Map;
-using Contracts.WalkingStrategies;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services.WalkingStrategies
+namespace Services.InstructionExecutors
 {
     public class BackOffStrategiesExecutor : BaseInstructionExecutor, IBackOffStrategiesExecutor
     {

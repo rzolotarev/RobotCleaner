@@ -1,4 +1,5 @@
 ﻿using Common.Exceptions;
+using Common.Outputs;
 using Contracts.Commands;
 using Contracts.Extensions;
 using Contracts.FileReaders;
@@ -36,6 +37,7 @@ namespace Services.FileReaders
                 });
 
                 workParameters.Commands = instructions;
+                workParameters.Map = info.Map;
 
                 Facing facing;
                 Check.That(Enum.TryParse(info.Start.Facing, out facing), $"Error parsing Facing {info.Start.Facing}");                                    
@@ -50,6 +52,7 @@ namespace Services.FileReaders
             }
             catch (Exception ex)
             {
+                ConsoleLogger.WriteError($"Exception while reading {pathToFile}. {ex.Message}");
                 throw ex;
             }
         }

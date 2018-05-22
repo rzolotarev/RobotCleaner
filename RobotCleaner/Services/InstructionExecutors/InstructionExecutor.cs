@@ -1,9 +1,8 @@
 ﻿using Common.Outputs;
 using Contracts.Commands;
+using Contracts.InstructionExecutors;
 using Contracts.Map;
-using Contracts.Robot;
-using Contracts.WalkingStrategies;
-using Services.Commands;
+using Services.InstructionExecutors;
 using System;
 using System.Collections.Generic;
 using System.Linq;

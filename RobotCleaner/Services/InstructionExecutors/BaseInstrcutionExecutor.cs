@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Services.WalkingStrategies
+namespace Services.InstructionExecutors
 {
     public class BaseInstructionExecutor
     {
