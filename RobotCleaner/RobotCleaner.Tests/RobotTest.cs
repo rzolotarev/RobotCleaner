@@ -5,8 +5,6 @@ using Contracts.Robots;
 using Moq;
 using NUnit.Framework;
 using Services.Container;
-using Services.InstructionExecutors;
-using Services.WalkingStrategies;
 using System;
 using System.Collections.Generic;
 using System.Linq;

@@ -3,8 +3,6 @@ using Contracts.InstructionExecutors;
 using Contracts.Map;
 using NUnit.Framework;
 using Services.Container;
-using Services.InstructionExecutors;
-using Services.WalkingStrategies;
 using Unity;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +12,10 @@ using System.Threading.Tasks;
 namespace RobotCleaner.Tests
 {
     [TestFixture]
-    public class BackOffStrategieTest
+    public class BackOffStrategyTest
     {
         [Test]
-        public void Test1BackOffStrategie()
+        public void Test1BackOffStrategy()
         {
             var container = Container.BuildContainer();
             var map = new string[4, 4] { { "S", "S", "S", "S" },{ "S", "S", "C", "S" },
@@ -42,11 +40,11 @@ namespace RobotCleaner.Tests
             commands.AddLast(Contracts.Commands.Instructions.C);
                                     
             
-            var walkingStrategie = container.Resolve<IInstructionExecutor>();
+            var walkingStrategy = container.Resolve<IInstructionExecutor>();
             var currentCommand = commands.First;
             while (currentCommand != null)
             {
-                var isSuccessful = walkingStrategie.TryToExecuteInstruction(currentCommand.Value);
+                var isSuccessful = walkingStrategy.TryToExecuteInstruction(currentCommand.Value);
                 if (!isSuccessful)
                     break;
 
@@ -62,7 +60,7 @@ namespace RobotCleaner.Tests
         }
 
         [Test]
-        public void Test2BackOffStrategie()
+        public void Test2BackOffStrategy()
         {
             var container = Container.BuildContainer();
 

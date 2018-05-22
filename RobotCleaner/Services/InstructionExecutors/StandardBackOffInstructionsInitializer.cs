@@ -26,7 +26,7 @@ namespace Services.InstructionExecutors
             var strategies = _backOffSettings.Strategies;
             strategies.Split(';').ToList().ForEach(strategie =>
             {
-                var currentStrategie = new LinkedList<Instructions>();
+                var currentStrategy = new LinkedList<Instructions>();
 
                 strategie.Split(',').ToList().ForEach(command =>
                 {
@@ -34,10 +34,10 @@ namespace Services.InstructionExecutors
 
                     Check.That(Enum.TryParse(command, out currentInstruction), $"Error parsing back off strategie: {command}");
 
-                    currentStrategie.AddLast(currentInstruction);                    
+                    currentStrategy.AddLast(currentInstruction);                    
                 });
 
-                instructions.AddLast(currentStrategie);
+                instructions.AddLast(currentStrategy);
             });                     
             return instructions;
         }
