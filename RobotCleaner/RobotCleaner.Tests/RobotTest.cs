@@ -2,7 +2,6 @@
 using Contracts.InstructionExecutors;
 using Contracts.Map;
 using Contracts.Robots;
-using Moq;
 using NUnit.Framework;
 using Services.Container;
 using System;
