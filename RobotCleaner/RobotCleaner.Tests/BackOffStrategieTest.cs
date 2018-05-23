@@ -15,7 +15,7 @@ namespace RobotCleaner.Tests
     public class BackOffStrategyTest
     {
         [Test]
-        public void Test1BackOffStrategy()
+        public void Result1json_TestPosition()
         {
             var container = Container.BuildContainer();
             var map = new string[4, 4] { { "S", "S", "S", "S" },{ "S", "S", "C", "S" },
@@ -58,7 +58,7 @@ namespace RobotCleaner.Tests
         }
 
         [Test]
-        public void Test2BackOffStrategy_Position()
+        public void Result2json_TestPosition()
         {
             var container = Container.BuildContainer();
 
@@ -100,7 +100,7 @@ namespace RobotCleaner.Tests
         }
 
         [Test]
-        public void Test2BackOffStrategy_VisitedPoints()
+        public void Result2json_TestVisitedPoints()
         {
             var container = Container.BuildContainer();
 
@@ -148,7 +148,7 @@ namespace RobotCleaner.Tests
         }
 
         [Test]
-        public void Test2BackOffStrategy_CleanedPoints()
+        public void Result2json_TestCleanedPoints()
         {
             var container = Container.BuildContainer();
 

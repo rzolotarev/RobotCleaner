@@ -18,7 +18,7 @@ namespace RobotCleaner.Tests
     public class RobotTest
     {        
         [Test]
-        public void CleaningWithoutEmptySpace()
+        public void WithoutBackOffStrategy_TestPosition()
         {
             var container = Container.BuildContainer();
             var map = new string[4, 4] { { "S", "S", "S", "S" },{ "S", "S", "S", "S" },
@@ -48,7 +48,7 @@ namespace RobotCleaner.Tests
         }
 
         [Test]
-        public void Test1WithEmptySpace()
+        public void BackOffStrategy1_TestPosition()
         {
             var container = Container.BuildContainer();
             var map = new string[4, 4] { { "S", "S", "S", "S" },{ "S", "S", "C", "S" },
@@ -79,7 +79,7 @@ namespace RobotCleaner.Tests
         }
 
         [Test]
-        public void Test2WithEmptySpace()
+        public void BackOffStrategy2_TestPosition()
         {
             var container = Container.BuildContainer();
             var map = new string[4, 4] { { "S", "S", "S", "S" },{ "S", "S", "C", "S" },

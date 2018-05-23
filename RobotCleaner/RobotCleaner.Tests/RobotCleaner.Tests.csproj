@@ -92,7 +92,6 @@
   <ItemGroup>
     <Compile Include="BackOffStrategieTest.cs" />
     <Compile Include="MatrixConvertionTest.cs" />
-    <Compile Include="ReadFileTest.cs" />
     <Compile Include="RobotTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
