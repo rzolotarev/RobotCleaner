@@ -90,8 +90,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BackOffStrategieTest.cs" />
     <Compile Include="MatrixConvertionTest.cs" />
+    <Compile Include="Result1Json.cs" />
+    <Compile Include="Result2Json.cs" />
     <Compile Include="RobotTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
